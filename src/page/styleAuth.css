@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Ancizar+Sans:ital,wght@0,100..1000;1,100..1000&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Ancizar Sans", sans-serif;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f2f2f2;
+}
+
+.container {
+  position: relative;
+  width: 900px;
+  height: 550px;
+  display: flex;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 30px rgba(0,0,0,0.2);
+  border-radius: 12px;
+}
+
+.container-form {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  padding: 40px;
+  background: #fff;
+  transition: all 0.6s ease-in-out;
+  z-index: 1;
+}
+
+.sign-in-container {
+  left: 0;
+}
+
+.sign-up-container {
+  left: 0;
+  opacity: 0;
+  z-index: 0;
+}
+
+.container-welcome {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  background-image: url('../assets/img/auth.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  text-align: center;
+  transition: transform 0.6s ease-in-out;
+  z-index: 2;
+}
+
+.container.toggle .sign-in-container {
+    transform: translateX(100%);
+}
+
+.container.toggle .sign-up-container {
+    transform: translateX(0);
+}
+
+.container.toggle .container-welcome {
+    transform: translateX(-100%);
+}
+
+.container-form form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px;
+}
+
+.container-form h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.container-input {
+    width: 300px;
+    height: 40px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 0 15px;
+    background-color: #EEEEEE;
+    border-radius: 5px;
+}
+
+.container-input input {
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    font-size: 14px;
+}
+
+.container-form a {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    text-decoration: none;
+}
+
+.container-form a:hover {
+    text-decoration: underline;
+}
+
+.button {
+    position: relative;
+    border-radius: 20px;
+    border: 1px solid#4bb6b7;
+    background: #4bb6b7;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    margin:10px;
+    padding: 12px 80px;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    transition: 0.3s ease-in-out;
+}
+
+.button:hover {
+  letter-spacing: 3px;
+}
+
+.welcome {
+  position: absolute;
+  width: 100%;
+  padding: 0 40px;
+  transition: opacity 0.3s ease-in-out;
+}
+.welcome h3 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.welcome p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.welcome .button {
+    background-color: transparent;
+    border: 2px solid white;
+}
+
+.welcome .button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+ion-icon {
+    font-size: 20px;
+    color: #555;
+}
+
+.welcome-sign-up {
+    position: absolute;
+    opacity: 1;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+.welcome-sign-in {
+    position: absolute;
+    opacity: 1;
+    transform: translateX(200%);
+    transition: transform 0.6s ease-in-out;
+}
+.container.toggle .sign-in-container {
+  transform: translateX(100%);
+  opacity: 0;
+  z-index: 0;
+}
+
+.container.toggle .sign-up-container {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 1;
+}
+
+.container.toggle .welcome-sign-up {
+    transform: translateX(-200%);
+}
+
+.container.toggle .welcome-sign-in {
+    transform: translateX(0);
+}
