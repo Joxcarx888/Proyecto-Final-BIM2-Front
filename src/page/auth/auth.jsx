@@ -1,8 +1,10 @@
 import { useRef } from "react";
 import { Helmet } from "react-helmet";
+import { Login } from "../../components/Login";
+import { Register } from "../../components/Register";
 import "./styleAuth.css";
 
-function App() {
+export const Auth =()=> {
   const containerRef = useRef(null);
 
   const handleSignInClick = () => {
@@ -25,42 +27,11 @@ function App() {
       <div className="app">
         <div className="container" ref={containerRef}>
           <div className="container-form sign-in-container">
-            <form>
-              <h2>Iniciar Sesión</h2>
-              <div className="container-input">
-                <i className="lni lni-envelope"></i>
-                <input type="text" placeholder="Email" />
-              </div>
-              <div className="container-input">
-                <i className="lni lni-lock-alt"></i>
-                <input type="password" placeholder="Password" />
-              </div>
-              <a href="#">¿Olvidaste tu contraseña?</a>
-              <button type="button" className="button">
-                INICIAR SESIÓN
-              </button>
-            </form>
+            <Login switchAuthHandler={handleSignUpClick} />
           </div>
 
           <div className="container-form sign-up-container">
-            <form>
-              <h2>Registrarse</h2>
-              <div className="container-input">
-                <i className="lni lni-user"></i>
-                <input type="text" placeholder="Nombre" />
-              </div>
-              <div className="container-input">
-                <i className="lni lni-envelope"></i>
-                <input type="text" placeholder="Email" />
-              </div>
-              <div className="container-input">
-                <i className="lni lni-lock-alt"></i>
-                <input type="password" placeholder="Password" />
-              </div>
-              <button type="button" className="button">
-                REGISTRARSE
-              </button>
-            </form>
+            <Register switchAuthHandler={handleSignInClick} />
           </div>
 
           <div className="container-welcome">
@@ -85,4 +56,4 @@ function App() {
   );
 }
 
-export default App;
+export default Auth;
