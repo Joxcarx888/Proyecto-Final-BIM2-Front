@@ -10,14 +10,7 @@ export function SidebarDemo() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:5000/api/posts")
-      .then((res) => res.json())
-      .then((data) => setPosts(data))
-      .catch((err) => console.error("Error fetching posts:", err));
-  }, []);
-
+  
   const handleNavigate = (path) => {
     navigate(path);
     setOpen(false);
