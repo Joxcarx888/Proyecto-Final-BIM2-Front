@@ -236,3 +236,20 @@ ion-icon {
 .container.toggle .welcome-sign-in {
     transform: translateX(0);
 }
+
+.styled-select {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: inherit;
+    font-size: 14px;
+    color: #333;
+    appearance: none;
+    padding-right: 20px;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23666' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    cursor: pointer;
+}
+

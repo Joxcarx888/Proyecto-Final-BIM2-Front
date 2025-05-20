@@ -17,15 +17,16 @@ export const Login = ({ switchAuthHandler }) => {
   const onSubmit = async (data) => {
     try {
       await login(data.email, data.password);
-      navigate("/dashboard");
     } catch (error) {
       if (error.response?.status === 401) {
         toast.error("Correo o contraseña incorrectos");
       } else {
+        toast.error("Correo o contraseña incorrectos");
         toast.error("Error al iniciar sesión. Intenta más tarde.");
       }
     }
   };
+  
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h2>Iniciar Sesión</h2>

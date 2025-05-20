@@ -47,4 +47,12 @@ export const getHotels = async () => {
   }
 };
 
+export const registerHotelOwner = async (data) => {
+  try {
+      return await apiClient.post('auth/register-hotel-admin', data)
+  } catch (e) {
+      return { error: true, e }
+  }
+}
+
 
