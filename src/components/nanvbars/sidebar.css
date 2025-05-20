@@ -1,0 +1,108 @@
+/* sidebar.css */
+
+/* Reseteo mínimo y fondo general */
+body {
+  margin: 0;
+  background-color: #f4f1ea;
+  overflow-x: hidden; /* evita scroll horizontal */
+}
+
+/* Contenedor fijo del sidebar */
+.sidebar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: hsl(200, 21%, 25%);
+  border-right: 1px solid #242739;
+  box-shadow: 4px 0 10px rgba(36, 39, 57, 0.2);
+  z-index: 40;
+  transition: width 0.3s ease;
+  overflow-y: auto;
+}
+
+/* Anchos según estado */
+.sidebar-container.expanded {
+  width: 16rem; /* 256px */
+}
+.sidebar-container.collapsed {
+  width: 5rem;  /*  80px */
+}
+
+/* Cuerpo interior del sidebar */
+.sidebar-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem;
+}
+
+/* Logo (si lo usas) */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #5E8271;
+  font-weight: 600;
+  color: #FFFBF0;
+}
+
+/* Lista de enlaces */
+.sidebar-links {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+/* Cada enlace */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
+  color: #FFFBF0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+}
+.sidebar-link:hover {
+  background-color: #5E8271;
+  transform: translateX(5px);
+}
+
+/* Pie de sidebar */
+.sidebar-footer {
+  border-top: 2px solid #5E8271;
+  padding-top: 1rem;
+  font-size: 0.9rem;
+  color: #9E9C71;
+  text-align: center;
+}
+
+/* Avatar opcional */
+.sidebar-avatar {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border: 2px solid #9E9C71;
+  box-shadow: 0 0 5px rgba(36, 39, 57, 0.3);
+}
+
+/* Contenido principal, con margen dinámico */
+.main-content {
+  margin-left: 16rem;
+  transition: margin-left 0.3s ease;
+  height: 100vh;
+  overflow: auto;
+}
+
+/* Ajuste de margen cuando está colapsado */
+.sidebar-container.collapsed + .main-content {
+  margin-left: 5rem;
+}
