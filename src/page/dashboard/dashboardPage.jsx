@@ -1,4 +1,5 @@
 import React from "react";
+import { SidebarDemo } from "../../components/nanvbars/sidevbar";
 import { useHotels } from "../../shared/hooks/useHotels";
 import "./styleDashboard.css";
 
@@ -10,6 +11,7 @@ export const DashboardPage = () => {
 
   return (
     <div className="dashboard-container">
+      <SidebarDemo/>
       {hotels.map((hotel) => (
         <div key={hotel._id || hotel.id} className="hotel-card">
           <img
