@@ -19,13 +19,14 @@ export const useRegister = () => {
         toast.success("Usuario registrado exitosamente");
   
         navigate("/");
-      } catch (error) {
-        console.error("Error en registerRequest:", error);
-  
-        toast.error(
-          error?.response?.data?.message || "Ocurrió un error al registrar, intenta de nuevo"
-        );
-      } finally {
+        }catch (error) {
+          console.error("Error en registerRequest:", error);
+          toast.error(
+            error?.response?.data?.message || "Ocurrió un error al registrar, intenta de nuevo"
+          );
+          throw error;  
+        }
+         finally {
         setIsLoading(false);
       }
     };

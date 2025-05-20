@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Login } from "../../components/Login";
 import { Register } from "../../components/Register";
 import "./styleAuth.css";
@@ -12,6 +12,7 @@ export const Auth =()=> {
   };
 
   const handleSignUpClick = () => {
+    console.log("Registrarse clickeado");
     containerRef.current?.classList.add("toggle");
   };
 
