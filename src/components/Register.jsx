@@ -68,7 +68,7 @@ export const Register = ({ switchAuthHandler }) => {
       {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
 
       <button type="submit" className="button" disabled={isLoading}>
-        {isLoading ? "Cargando..." : "REGISTRARSE"}
+        {isLoading ? "Cargando...." : "REGISTRARSE"}
       </button>
     </form>
   );
