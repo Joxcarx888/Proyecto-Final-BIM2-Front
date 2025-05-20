@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from '../shared/validators'; 
@@ -6,6 +7,7 @@ import toast from "react-hot-toast";
 
 export const Login = ({ switchAuthHandler }) => {
   const { login, isLoading } = useLogin();
+  const navigate = useNavigate();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(loginSchema),
@@ -15,6 +17,7 @@ export const Login = ({ switchAuthHandler }) => {
   const onSubmit = async (data) => {
     try {
       await login(data.email, data.password);
+      navigate("/dashboard");
     } catch (error) {
       if (error.response?.status === 401) {
         toast.error("Correo o contraseña incorrectos");
@@ -23,7 +26,6 @@ export const Login = ({ switchAuthHandler }) => {
       }
     }
   };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h2>Iniciar Sesión</h2>
