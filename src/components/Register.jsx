@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import toast from "react-hot-toast";
 import { useRegister } from "../shared/hooks";
+import { useNavigate } from "react-router-dom";
 
 const registerSchema = yup.object().shape({
   name: yup.string().required("El nombre es obligatorio"),
@@ -14,6 +15,7 @@ const registerSchema = yup.object().shape({
 
 export const Register = ({ switchAuthHandler }) => {
   const { register: registerUser, isLoading } = useRegister();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -25,11 +27,10 @@ export const Register = ({ switchAuthHandler }) => {
   });
 
   const onSubmit = async (data) => {
-    console.log("Formulario enviado con datos:", data);
-
     try {
       await registerUser(data.name, data.email, data.password, data.username);
       toast.success("Usuario registrado exitosamente");
+      navigate("/dashboard"); 
     } catch (error) {
       if (error.response?.status === 409) {
         toast.error("Ya existe una cuenta con ese correo electrónico");
