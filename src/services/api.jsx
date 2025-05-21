@@ -45,6 +45,17 @@ export const getHotels = async () => {
     console.error(error);
     throw error;
   }
+}
+export const getHotelsByName = async (name) => {
+  try {
+    const response = await apiClient.get(`hotels/get-hotel-by-name/${name}`);
+    console.log("Respuesta completa del backend:", response.data); 
+    return response.data;
+  } catch (error) {
+    console.error("Error en getHotelsByName:", error);
+    throw error;
+  }
 };
+
 
 
