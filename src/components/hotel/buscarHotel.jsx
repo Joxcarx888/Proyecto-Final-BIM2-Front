@@ -32,7 +32,7 @@ export const Hotel = () => {
                 <h3 className="text-xl font-semibold">{hotel.name}</h3>
                 <p><strong>Dirección:</strong> {hotel.address}</p>
                 <p><strong>Categoría:</strong> {hotel.category}</p>
-                <p><strong>Habitaciones disponibles:</strong> {hotel.roomsAvailable ?? "N/A"}</p>
+                <p><strong>Cantidad de Habitaciones:</strong> {hotel.roomsAvailable ?? "N/A"}</p>
                 {hotel.amenities && <p><strong>Comodidades:</strong> {hotel.amenities}</p>}
                 <p className="text-sm text-gray-500 mt-1">
                   Publicado {formatDistanceToNow(new Date(hotel.createdAt), { addSuffix: true, locale: es })}

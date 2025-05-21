@@ -42,7 +42,7 @@ export const HotelList = () => {
           />
           <h3>{hotel.name}</h3>
           <p><strong>Dirección:</strong> {hotel.address || "No disponible"}</p>
-          <p><strong>Habitaciones disponibles:</strong> {hotel.roomsAvailable ?? "N/A"}</p>
+          <p><strong>Cantidad de Habitaciones</strong> {hotel.roomsAvailable ?? "N/A"}</p>
         </Link>
       ))}
     </div>
