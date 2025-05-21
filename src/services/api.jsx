@@ -1,41 +1,41 @@
 import axios from "axios";
 import { logout } from "../shared/hooks";
 
-  const apiClient = axios.create({
-      baseURL: 'http://localhost:3333/penguinManagement/v1/',
-      timeout: 5000
-  })
+const apiClient = axios.create({
+  baseURL: 'http://localhost:3333/penguinManagement/v1/',
+  timeout: 5000
+});
 
-  apiClient.interceptors.request.use(
-    (config) => {
-      const useUserDetails = localStorage.getItem('user');
+apiClient.interceptors.request.use(
+  (config) => {
+    const useUserDetails = localStorage.getItem('user');
 
-      if (useUserDetails) {
-        const token = JSON.parse(useUserDetails).token;
-        config.headers['x-token'] = token; 
-      }
-
-      return config;
-    },
-    (e) => {
-      return Promise.reject(e);
+    if (useUserDetails) {
+      const token = JSON.parse(useUserDetails).token;
+      config.headers['x-token'] = token; 
     }
-  );
-  
-  export const login = async (data) => {
-    try {
-        return await apiClient.post('auth/login', data)
-    } catch (e) {
-        return { error: true, e }
-    }
+
+    return config;
+  },
+  (e) => {
+    return Promise.reject(e);
+  }
+);
+
+export const login = async (data) => {
+  try {
+    return await apiClient.post('auth/login', data);
+  } catch (e) {
+    return { error: true, e };
+  }
 }
 
 export const register = async (data) => {
-    try {
-        return await apiClient.post('auth/register', data)
-    } catch (e) {
-        return { error: true, e }
-    }
+  try {
+    return await apiClient.post('auth/register', data);
+  } catch (e) {
+    return { error: true, e };
+  }
 }
 export const getHotels = async () => {
   try {
@@ -59,9 +59,9 @@ export const getHotelsByName = async (name) => {
 
 export const registerHotelOwner = async (data) => {
   try {
-      return await apiClient.post('auth/register-hotel-admin', data)
+    return await apiClient.post('auth/register-hotel-admin', data);
   } catch (e) {
-      return { error: true, e }
+    return { error: true, e };
   }
 }
 
@@ -87,7 +87,26 @@ export const acceptUser = async (id) => {
 };
 
 
+export const getReservations = async (role) => {
+  try {
+    let url = '';
 
+    if (role === 'ADMIN') {
+      url = 'reservations/admin';
+    } else if (role === 'CLIENT') {
+      url = 'reservations/client';
+    } else if (role === 'HOTEL') {
+      url = 'reservations/hotel';
+    } else {
+      console.warn(`Rol no soportado: ${role}`);
+      url = 'reservations/client'; // fallback
+    }
 
-
+    const response = await apiClient.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener las reservaciones:", error);
+    throw error;
+  }
+};
 

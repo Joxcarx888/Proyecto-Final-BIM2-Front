@@ -14,15 +14,19 @@ export const useLogin = () => {
       const response = await loginRequest({ email, password });
 
       const { userDetails } = response.data;
+      console.log("userDetails recibido:", userDetails);
       const token = userDetails?.token || response.data.token; 
 
       if (userDetails && token) {
-        const userData = { ...userDetails, token };
+        const userData = { 
+          ...userDetails, 
+          role: userDetails.role?.toUpperCase() || "",
+          token 
+        };
 
         localStorage.setItem("user", JSON.stringify(userData));
-
         toast.success("Sesión iniciada correctamente");
-        navigate("/dashboard");  
+        navigate("/dashboard");
       } else {
         throw new Error("Error al obtener datos del usuario.");
       }
