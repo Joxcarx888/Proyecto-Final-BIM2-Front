@@ -6,11 +6,11 @@ import { cn } from "../../lib/utils";
 import "./sidebar.css";
 
 export function SidebarDemo() {
-  const { isLogged, logout } = useUserDetails();
+  const { isLogged, logout, role } = useUserDetails();
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [posts, setPosts] = useState([]);
-  
+
   const handleNavigate = (path) => {
     navigate(path);
     setOpen(false);
@@ -27,6 +27,21 @@ export function SidebarDemo() {
         <Sidebar open={open} setOpen={setOpen}>
           <SidebarBody className="sidebar-body justify-between gap-10">
             <div className="sidebar-links">
+              <SidebarLink
+                link={{ label: "Dashboard", href: "/dashboard" }}
+                onClick={() => handleNavigate("/dashboard")}
+                className="sidebar-link"
+              />
+
+              {/* Mostrar solo para ADMIN */}
+              {role === "ADMIN" && (
+                <SidebarLink
+                  link={{ label: "Aceptar Usuarios", href: "/users" }}
+                  onClick={() => handleNavigate("/users")}
+                  className="sidebar-link"
+                />
+              )}
+
               {posts.map((post, idx) => (
                 <SidebarLink
                   key={idx}

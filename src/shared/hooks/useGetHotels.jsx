@@ -4,26 +4,26 @@ import { getHotelsByName } from "../../services/api";
 
 export const useGetHotelsByName = (name) => {
   const [hotels, setHotels] = useState([]);
+  const [rooms, setRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchHotels = async () => {
     setIsLoading(true);
     try {
       const response = await getHotelsByName(name); 
-      console.log("🛬 Respuesta del backend:", response);
-
       if (response?.hotel) {
         setHotels([response.hotel]);
+        setRooms(response.rooms || []);
       } else {
         toast.error("No se encontró el hotel.");
         setHotels([]);
+        setRooms([]);
       }
-
     } catch (error) {
       const msg = error.response?.data?.message || "Error al cargar el hotel";
       toast.error(msg);
-      console.error(error);
       setHotels([]);
+      setRooms([]);
     } finally {
       setIsLoading(false);
     }
@@ -31,10 +31,9 @@ export const useGetHotelsByName = (name) => {
 
   useEffect(() => {
     if (name) {
-      console.log("🔍 Buscando hotel por nombre:", name);
       fetchHotels();
     }
   }, [name]);
 
-  return { hotels, isLoading, refetch: fetchHotels };
+  return { hotels, rooms, isLoading, refetch: fetchHotels };
 };

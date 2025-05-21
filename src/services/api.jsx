@@ -65,5 +65,29 @@ export const registerHotelOwner = async (data) => {
   }
 }
 
+export const getUsers = async (state) => {
+  try {
+    const url = state !== undefined ? `users/listar?state=${state}` : 'users/listar';
+    const response = await apiClient.get(url);
+    return response.data.users;  
+  } catch (error) {
+    console.error("Error al listar usuarios:", error);
+    throw error;
+  }
+};
+
+export const acceptUser = async (id) => {
+  try {
+    const response = await apiClient.put(`users/aceptar/${id}`);
+    return response.data; 
+  } catch (error) {
+    console.error("Error al aceptar usuario:", error);
+    throw error;
+  }
+};
+
+
+
+
 
 
