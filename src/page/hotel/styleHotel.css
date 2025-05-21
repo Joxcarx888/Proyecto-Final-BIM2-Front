@@ -29,3 +29,18 @@
 .hotel-card h3 {
   margin: 0.5rem;
 }
+
+.hotel-detail-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.hotel-detail-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.hotel-detail-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}

@@ -84,8 +84,7 @@ export const MobileSidebar = ({
 }) => {
   const { open, setOpen } = useSidebar();
   
-  // Solo muestra el MobileSidebar en dispositivos pequeños
-  if (window.innerWidth >= 768) return null; // Evita que se muestre en dispositivos grandes
+  if (window.innerWidth >= 768) return null; 
 
   return (
     <>
