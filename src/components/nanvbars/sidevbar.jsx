@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserDetails } from "../../shared/hooks";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
@@ -9,7 +9,6 @@ export function SidebarDemo() {
   const { isLogged, logout, role } = useUserDetails();
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
-  const [posts, setPosts] = useState([]);
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -33,7 +32,12 @@ export function SidebarDemo() {
                 className="sidebar-link"
               />
 
-              {/* Mostrar solo para ADMIN */}
+              <SidebarLink
+                link={{ label: "Reservaciones", href: "/reservations" }}
+                onClick={() => handleNavigate("/reservations")}
+                className="sidebar-link"
+              />
+
               {role === "ADMIN" && (
                 <SidebarLink
                   link={{ label: "Aceptar Usuarios", href: "/users" }}
@@ -41,15 +45,6 @@ export function SidebarDemo() {
                   className="sidebar-link"
                 />
               )}
-
-              {posts.map((post, idx) => (
-                <SidebarLink
-                  key={idx}
-                  link={{ label: post.title, href: "#" }}
-                  onClick={() => handleNavigate(`/post/${post._id}`)}
-                  className="sidebar-link"
-                />
-              ))}
             </div>
 
             <div className="sidebar-footer">

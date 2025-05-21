@@ -8,34 +8,38 @@ export const useRegister = () => {
   const navigate = useNavigate();
 
   const register = async (name, email, password, username, hotel = null) => {
-    setIsLoading(true);
+  setIsLoading(true);
 
-    try {
-      const userData = { name, email, password, username };
-      if (hotel) userData.hotel = hotel;
+  try {
+    const userData = { name, email, password, username };
+    if (hotel) userData.hotel = hotel;
 
-      const response = hotel
-        ? await registerHotelOwner(userData)
-        : await registerRequest(userData);
+    const response = hotel
+      ? await registerHotelOwner(userData)
+      : await registerRequest(userData);
 
-      if (response.error) throw response.e;
+    if (response.error) throw response.e;
 
-      const { userDetails } = response.data;
+    const { userDetails } = response.data;
+    const userDataToStore = {
+      ...userDetails,
+      role: userDetails.role?.toUpperCase().trim() || "",
+      token: userDetails.token || "",
+    };
 
-      localStorage.setItem("user", JSON.stringify(userDetails));
-      toast.success("Usuario registrado exitosamente");
-
-      navigate("/");
-    } catch (error) {
-      console.error("Error en registro:", error);
-      toast.error(
-        error?.response?.data?.message || "Ocurrió un error al registrar, intenta de nuevo"
-      );
-      throw error;
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    localStorage.setItem("user", JSON.stringify(userDataToStore));
+    toast.success("Usuario registrado exitosamente");
+    navigate("/");
+  } catch (error) {
+    console.error("Error en registro:", error);
+    toast.error(
+      error?.response?.data?.message || "Ocurrió un error al registrar, intenta de nuevo"
+    );
+    throw error;
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return {
     register,
