@@ -27,6 +27,7 @@ export const HotelList = () => {
     fetchHotels();
   }, []);
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     clearMessages();
@@ -38,6 +39,7 @@ export const HotelList = () => {
       category: form.category.value,
       roomsAvailable: Number(form.roomsAvailable.value),
       amenities: form.amenities.value.trim(), 
+
       priceEvent: Number(form.priceEvent.value)
     };
 

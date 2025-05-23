@@ -6,17 +6,22 @@ const apiClient = axios.create({
   timeout: 5000
 });
 
-apiClient.interceptors.request.use((config) => {
-  const useUserDetails = localStorage.getItem('user');
 
-  if (useUserDetails) {
-    const token = JSON.parse(useUserDetails).token;
-    config.headers['x-token'] = token;
-    console.log('[TOKEN INTERCEPTOR] Enviando token:', token);
+apiClient.interceptors.request.use(
+  (config) => {
+    const useUserDetails = localStorage.getItem('user');
+
+    if (useUserDetails) {
+      const token = JSON.parse(useUserDetails).token;
+      config.headers['x-token'] = token; 
+    }
+
+    return config;
+  },
+  (e) => {
+    return Promise.reject(e);
   }
-
-  return config;
-});
+);
 
 export const login = async (data) => {
   try {
@@ -95,7 +100,7 @@ export const getReservations = async (role) => {
       url = 'reservations/hotel';
     } else {
       console.warn(`Rol no soportado: ${role}`);
-      url = 'reservations/client'; 
+      url = 'reservations/client'; // fallback
     }
 
     const response = await apiClient.get(url);
