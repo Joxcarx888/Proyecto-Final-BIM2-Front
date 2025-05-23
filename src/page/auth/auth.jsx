@@ -4,6 +4,8 @@ import { Login } from "../../components/Login";
 import { Register } from "../../components/Register";
 import "./styleAuth.css";
 
+import iconSwitch from '../../assets/icons/1.png';
+
 export const Auth =()=> {
   const containerRef = useRef(null);
 
@@ -40,13 +42,16 @@ export const Auth =()=> {
               <h3>¡Bienvenido!</h3>
               <p>Ingrese sus datos</p>
               <button className="button" onClick={handleSignUpClick}>
+                <img src={iconSwitch} alt="icono password" className="input-icon" />
                 Registrarse <i className="lni lni-arrow-left login"></i>
               </button>
             </div>
             <div className="welcome welcome-sign-in">
               <h3>¡Hola!</h3>
               <p>Registre sus datos</p>
+
               <button className="button" onClick={handleSignInClick}>
+                <img src={iconSwitch} alt="icono password" className="input-icon" />
                 Iniciar Sesión <i className="lni lni-arrow-right"></i>
               </button>
             </div>

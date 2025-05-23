@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { addReservation } from '../../services/api';
+import { toast } from 'react-hot-toast';
 
 export const useAddReservation = () => {
   const [loading, setLoading] = useState(false);
@@ -9,6 +10,15 @@ export const useAddReservation = () => {
   const lastHotelIdRef = useRef(null);
 
   const handleAddReservation = async (hotelId, reservationData) => {
+    const userStr = localStorage.getItem("user");
+    const user = userStr ? JSON.parse(userStr) : null;
+    const role = user?.role?.toUpperCase();
+
+    if (role !== 'CLIENT') {
+      toast.error("Solo los clientes pueden hacer reservaciones.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setResponse(null);
@@ -22,9 +32,12 @@ export const useAddReservation = () => {
 
       const data = await addReservation(hotelId, reservationData);
       setResponse(data);
+      toast.success("Reservación completada correctamente");
     } catch (err) {
       console.error("Error desde el hook:", err);
-      setError(err.response?.data?.message || err.message || 'Error al hacer la reserva');
+      const message = err.response?.data?.message || err.message || 'Error al hacer la reserva';
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }

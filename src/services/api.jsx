@@ -118,7 +118,6 @@ export const addHotel = async (hotelData) => {
 
 
 export const addReservation = async (hotelId, reservationData) => {
-
   try {
     const response = await apiClient.post(`reservations/reservation/${hotelId}`,reservationData
     );
@@ -129,6 +128,28 @@ export const addReservation = async (hotelId, reservationData) => {
   }
 };
 
+export const createInvoice = async ({ hotelId, diasEstadia }) => {
+  try {
+    const response = await apiClient.post('invoice/create', {hotelId,diasEstadia: Number(diasEstadia),});
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear factura:", error);
+    throw error;
+  }
+};
+
+
+export const removeRoomsFromReservation = async (roomList) => {
+  try {
+    const response = await apiClient.delete('reservations/delete-rooms', {
+      data: { roomList },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar habitaciones:", error);
+    throw error;
+  }
+};
 
 
 
