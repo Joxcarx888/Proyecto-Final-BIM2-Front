@@ -121,3 +121,14 @@ export const addHotel = async (hotelData) => {
   }
 };
 
+export const addReservation = async (hotelId, reservationData) => {
+
+  try {
+    const response = await apiClient.post(`reservations/reservation/${hotelId}`,reservationData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al agregar reservación:", error);
+    throw error;
+  }
+};
