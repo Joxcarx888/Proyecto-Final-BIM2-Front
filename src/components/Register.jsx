@@ -7,6 +7,11 @@ import { useRegister } from "../shared/hooks";
 import { useNavigate } from "react-router-dom";
 import { useHotels } from "../shared/hooks/useHotels";
 
+// Importamos los íconos
+import iconUser from "../assets/icons/4.png";
+import iconEmail from "../assets/icons/3.png";
+import iconPassword from "../assets/icons/5.png";
+
 const registerSchema = yup.object().shape({
   name: yup.string().required("El nombre es obligatorio"),
   username: yup.string().required("El username es obligatorio"),
@@ -44,14 +49,6 @@ export const Register = ({ switchAuthHandler }) => {
 
   const onSubmit = async (data) => {
     try {
-      const userData = {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        username: data.username,
-        ...(isHotelOwner && { hotel: data.hotelId }),
-      };
-
       await registerUser(
         data.name,
         data.email,
@@ -59,7 +56,6 @@ export const Register = ({ switchAuthHandler }) => {
         data.username,
         isHotelOwner ? data.hotelId : null
       );
-      
       toast.success("Usuario registrado exitosamente");
       navigate("/dashboard");
     } catch (error) {
@@ -73,7 +69,7 @@ export const Register = ({ switchAuthHandler }) => {
 
   const handleHotelOwnerClick = () => {
     setIsHotelOwner(true);
-    setValue("isHotelOwner", true); 
+    setValue("isHotelOwner", true);
   };
 
   return (
@@ -81,35 +77,39 @@ export const Register = ({ switchAuthHandler }) => {
       <h2>Registrarse</h2>
 
       <div className="container-input">
-        <i className="lni lni-user"></i>
+        <img src={iconUser} alt="icono nombre" className="input-icon" />
         <input type="text" placeholder="Nombre" {...register("name")} />
       </div>
       {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
 
       <div className="container-input">
-        <i className="lni lni-user"></i>
+        <img src={iconUser} alt="icono username" className="input-icon" />
         <input type="text" placeholder="Username" {...register("username")} />
       </div>
       {errors.username && <p style={{ color: "red" }}>{errors.username.message}</p>}
 
       <div className="container-input">
-        <i className="lni lni-envelope"></i>
+        <img src={iconEmail} alt="icono email" className="input-icon" />
         <input type="text" placeholder="Email" {...register("email")} />
       </div>
       {errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}
 
       <div className="container-input">
-        <i className="lni lni-lock-alt"></i>
+        <img src={iconPassword} alt="icono password" className="input-icon" />
         <input type="password" placeholder="Password" {...register("password")} />
       </div>
       {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
 
       {isHotelOwner ? (
-        <button type="button" className="button" onClick={() => {
-          setIsHotelOwner(false);
-          setValue("isHotelOwner", false);
-          setValue("hotelId", "");
-        }}>
+        <button
+          type="button"
+          className="button"
+          onClick={() => {
+            setIsHotelOwner(false);
+            setValue("isHotelOwner", false);
+            setValue("hotelId", "");
+          }}
+        >
           Registrar Usuario
         </button>
       ) : (
@@ -117,7 +117,6 @@ export const Register = ({ switchAuthHandler }) => {
           Registrar Hotel Owner
         </button>
       )}
-
 
       {isHotelOwner && (
         <>

@@ -6,7 +6,6 @@ const apiClient = axios.create({
   timeout: 5000
 });
 
-
 apiClient.interceptors.request.use(
   (config) => {
     const useUserDetails = localStorage.getItem('user');
@@ -29,7 +28,7 @@ export const login = async (data) => {
   } catch (e) {
     return { error: true, e };
   }
-}
+};
 
 export const register = async (data) => {
   try {
@@ -37,7 +36,8 @@ export const register = async (data) => {
   } catch (e) {
     return { error: true, e };
   }
-}
+};
+
 export const getHotels = async () => {
   try {
     const response = await apiClient.get('hotels');
@@ -46,7 +46,8 @@ export const getHotels = async () => {
     console.error(error);
     throw error;
   }
-}
+};
+
 export const getHotelsByName = async (name) => {
   try {
     const response = await apiClient.get(`hotels/get-hotel-by-name/${name}`);
@@ -64,7 +65,7 @@ export const registerHotelOwner = async (data) => {
   } catch (e) {
     return { error: true, e };
   }
-}
+};
 
 export const getUsers = async (state) => {
   try {
@@ -86,7 +87,6 @@ export const acceptUser = async (id) => {
     throw error;
   }
 };
-
 
 export const getReservations = async (role) => {
   try {
@@ -122,13 +122,36 @@ export const addHotel = async (hotelData) => {
 };
 
 export const addReservation = async (hotelId, reservationData) => {
-
   try {
-    const response = await apiClient.post(`reservations/reservation/${hotelId}`,reservationData
-    );
+    const response = await apiClient.post(`reservations/reservation/${hotelId}`, reservationData);
     return response.data;
   } catch (error) {
     console.error("Error al agregar reservación:", error);
+    throw error;
+  }
+};
+
+export const createInvoice = async ({ hotelId, diasEstadia }) => {
+  try {
+    const response = await apiClient.post('invoice/create', {
+      hotelId,
+      diasEstadia: Number(diasEstadia),
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear factura:", error);
+    throw error;
+  }
+};
+
+export const removeRoomsFromReservation = async (roomList) => {
+  try {
+    const response = await apiClient.delete('reservations/delete-rooms', {
+      data: { roomList },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar habitaciones:", error);
     throw error;
   }
 };

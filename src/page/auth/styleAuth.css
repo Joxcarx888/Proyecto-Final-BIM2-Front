@@ -93,6 +93,27 @@ body {
     overflow: hidden;
 }
 
+.container-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.input-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.container-input input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 1rem;
+}
 
 .container.toggle .container-welcome {
     transform: translateX(-100%);

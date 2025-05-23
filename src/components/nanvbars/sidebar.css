@@ -1,13 +1,10 @@
-/* sidebar.css */
 
-/* Reseteo mínimo y fondo general */
 body {
   margin: 0;
   background-color: #f4f1ea;
-  overflow-x: hidden; /* evita scroll horizontal */
+  overflow-x: hidden;
 }
 
-/* Contenedor fijo del sidebar */
 .sidebar-container {
   position: fixed;
   top: 0;
@@ -21,15 +18,13 @@ body {
   overflow-y: auto;
 }
 
-/* Anchos según estado */
 .sidebar-container.expanded {
-  width: 16rem; /* 256px */
+  width: 16rem; 
 }
 .sidebar-container.collapsed {
-  width: 5rem;  /*  80px */
+  width: 5rem; 
 }
 
-/* Cuerpo interior del sidebar */
 .sidebar-body {
   display: flex;
   flex-direction: column;
@@ -37,7 +32,6 @@ body {
   padding: 1.5rem;
 }
 
-/* Logo (si lo usas) */
 .sidebar-logo {
   display: flex;
   align-items: center;
@@ -48,7 +42,6 @@ body {
   color: #FFFBF0;
 }
 
-/* Lista de enlaces */
 .sidebar-links {
   margin-top: 1.5rem;
   display: flex;
@@ -58,7 +51,6 @@ body {
   overflow-y: auto;
 }
 
-/* Cada enlace */
 .sidebar-link {
   display: flex;
   align-items: center;
@@ -75,7 +67,6 @@ body {
   transform: translateX(5px);
 }
 
-/* Pie de sidebar */
 .sidebar-footer {
   border-top: 2px solid #5E8271;
   padding-top: 1rem;
@@ -84,7 +75,6 @@ body {
   text-align: center;
 }
 
-/* Avatar opcional */
 .sidebar-avatar {
   border-radius: 50%;
   width: 40px;
@@ -94,7 +84,6 @@ body {
   box-shadow: 0 0 5px rgba(36, 39, 57, 0.3);
 }
 
-/* Contenido principal, con margen dinámico */
 .main-content {
   margin-left: 16rem;
   transition: margin-left 0.3s ease;
@@ -102,7 +91,6 @@ body {
   overflow: auto;
 }
 
-/* Ajuste de margen cuando está colapsado */
 .sidebar-container.collapsed + .main-content {
   margin-left: 5rem;
 }
