@@ -6,3 +6,5 @@ export {useGetHotelsByName} from "./useGetHotels.jsx"
 export {useAcceptUser} from "./useAcceptUser.jsx"
 export {useGetUsers} from "./useGetUsers.jsx"
 export {useAddHotel} from "./useAddHotel.jsx"
+export {useAddReservation} from "./useAddReservacion.jsx"
+

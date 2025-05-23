@@ -27,7 +27,7 @@ export const HotelList = () => {
     fetchHotels();
   }, []);
 
-  // Manejo submit formulario
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     clearMessages();
@@ -38,21 +38,20 @@ export const HotelList = () => {
       address: form.address.value,
       category: form.category.value,
       roomsAvailable: Number(form.roomsAvailable.value),
-      amenities: form.amenities.value.trim(), // Aquí es texto plano, no arreglo
+      amenities: form.amenities.value.trim(), 
+
       priceEvent: Number(form.priceEvent.value)
     };
 
     try {
       await addNewHotel(hotelData);
       setShowAddPanel(false);
-
-      // Refrescar lista de hoteles
       setIsLoading(true);
       const data = await getHotels();
       setHotels(data);
       setIsLoading(false);
     } catch {
-      // El error se muestra desde el hook
+      
     }
   };
 

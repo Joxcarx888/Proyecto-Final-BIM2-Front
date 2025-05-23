@@ -1,13 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useGetHotelsByName } from "../../shared/hooks/useGetHotels";
+import { useGetHotelsByName, useAddReservation } from "../../shared/hooks";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import "./Hotel.css";
 
 export const Hotel = () => {
-  const { name } = useParams(); 
-  const { hotels, rooms, isLoading } = useGetHotelsByName(name); 
+  const { name } = useParams();
+  const { hotels, rooms, isLoading } = useGetHotelsByName(name);
+  const { addReservation, loading, error, response, clearMessages } = useAddReservation();
+
+  const [selectedRoom, setSelectedRoom] = useState(null);
+
+  const handleRoomSelect = (roomId) => {
+    setSelectedRoom((prev) => (prev === roomId ? null : roomId));
+  };
+
+  const handleReservation = (hotelId) => {
+    if (!selectedRoom) return alert("Selecciona una habitación.");
+    clearMessages();
+    const reservationData = {
+      roomList: [selectedRoom],
+    };
+    addReservation(hotelId, reservationData);
+  };
+
+  useEffect(() => {
+    if (response || error) {
+      const timer = setTimeout(() => {
+        clearMessages();
+        if (response) setSelectedRoom(null);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [response, error, clearMessages]);
 
   return (
     <div className="hotel-container">
@@ -35,12 +62,23 @@ export const Hotel = () => {
                 <p><strong>Cantidad de Habitaciones:</strong> {hotel.roomsAvailable ?? "N/A"}</p>
                 {hotel.amenities && <p><strong>Comodidades:</strong> {hotel.amenities}</p>}
                 <p className="text-sm text-gray-500 mt-1">
-                  Publicado {formatDistanceToNow(new Date(hotel.createdAt), { addSuffix: true, locale: es })}
+                  Publicado{" "}
+                  {formatDistanceToNow(new Date(hotel.createdAt), {
+                    addSuffix: true,
+                    locale: es,
+                  })}
                 </p>
 
-                <button className="reserve-button mt-4">
-                  Hacer una reservación
+                <button
+                  className="reserve-button mt-4"
+                  onClick={() => handleReservation(hotel._id)}
+                  disabled={loading}
+                >
+                  {loading ? "Reservando..." : "Hacer una reservación"}
                 </button>
+
+                {error && <p className="text-red-500 mt-2">{error}</p>}
+                {response && <p className="text-green-600 mt-2">{response.message}</p>}
               </div>
             ))}
           </div>
@@ -59,6 +97,16 @@ export const Hotel = () => {
             <p><strong>Tipo:</strong> {room.type}</p>
             <p><strong>Precio:</strong> Q{room.price}</p>
             <p><strong>Disponible:</strong> {room.available ? "Sí" : "No"}</p>
+            {room.available && (
+              <label>
+                <input
+                  type="radio"
+                  name="room"
+                  checked={selectedRoom === room._id}
+                  onChange={() => handleRoomSelect(room._id)}
+                /> Seleccionar
+              </label>
+            )}
           </div>
         ))}
       </div>
