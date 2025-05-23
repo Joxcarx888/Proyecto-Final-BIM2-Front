@@ -1,0 +1,47 @@
+.users-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  background-color: #004aad;
+  color: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.user-list {
+  list-style: none;
+  padding: 0;
+}
+
+.user-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accept-btn {
+  background-color: #28a745;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.accept-btn:hover {
+  background-color: #218838;
+}
+
+.error {
+  color: red;
+}

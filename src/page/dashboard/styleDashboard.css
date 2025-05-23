@@ -1,8 +1,12 @@
 .hotels-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   padding: 1rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto; 
+  box-sizing: border-box;
 }
 
 .hotel-card {
@@ -29,3 +33,80 @@
 .hotel-card h3 {
   margin: 0.5rem;
 }
+
+.hotel-card p {
+  margin: 0.5rem;
+  font-size: 0.95rem;
+}
+
+
+@media (max-width: 1024px) {
+  .hotels-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .hotels-grid {
+    grid-template-columns: 1fr; 
+  }
+}
+
+.add-hotel-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #ffcc00; /* amarillo */
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -3px 0 6px rgba(0,0,0,0.2);
+  padding: 20px;
+  z-index: 1001;
+  overflow-y: auto;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.hotel-form label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.hotel-form input {
+  width: 100%;
+  padding: 6px 8px;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
+
+

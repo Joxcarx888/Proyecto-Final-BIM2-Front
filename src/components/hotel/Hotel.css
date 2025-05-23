@@ -1,0 +1,60 @@
+.hotel-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem;
+  gap: 2rem;
+}
+
+.hotel-details {
+  flex: 1;
+}
+
+.hotel-rooms {
+  flex: 1;
+}
+
+.hotel-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.reserve-button {
+  background-color: #10b981; /* verde */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.reserve-button:hover {
+  background-color: #059669;
+}
+
+.room-card {
+  border: 1px solid #ccc;
+  padding: 0.75rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.room-card.available {
+  background-color: #22c55e; /* verde */
+}
+
+.room-card.unavailable {
+  background-color: #ef4444; /* rojo */
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserDetails } from "../../shared/hooks";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
@@ -6,11 +6,10 @@ import { cn } from "../../lib/utils";
 import "./sidebar.css";
 
 export function SidebarDemo() {
-  const { isLogged, logout } = useUserDetails();
+  const { isLogged, logout, role } = useUserDetails();
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
-  const [posts, setPosts] = useState([]);
-  
+
   const handleNavigate = (path) => {
     navigate(path);
     setOpen(false);
@@ -27,14 +26,25 @@ export function SidebarDemo() {
         <Sidebar open={open} setOpen={setOpen}>
           <SidebarBody className="sidebar-body justify-between gap-10">
             <div className="sidebar-links">
-              {posts.map((post, idx) => (
+              <SidebarLink
+                link={{ label: "Dashboard", href: "/dashboard" }}
+                onClick={() => handleNavigate("/dashboard")}
+                className="sidebar-link"
+              />
+
+              <SidebarLink
+                link={{ label: "Reservaciones", href: "/reservations" }}
+                onClick={() => handleNavigate("/reservations")}
+                className="sidebar-link"
+              />
+
+              {role === "ADMIN" && (
                 <SidebarLink
-                  key={idx}
-                  link={{ label: post.title, href: "#" }}
-                  onClick={() => handleNavigate(`/post/${post._id}`)}
+                  link={{ label: "Aceptar Usuarios", href: "/users" }}
+                  onClick={() => handleNavigate("/users")}
                   className="sidebar-link"
                 />
-              ))}
+              )}
             </div>
 
             <div className="sidebar-footer">

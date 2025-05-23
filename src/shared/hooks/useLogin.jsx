@@ -14,15 +14,19 @@ export const useLogin = () => {
       const response = await loginRequest({ email, password });
 
       const { userDetails } = response.data;
-      const { token } = userDetails;
+      console.log("userDetails recibido:", userDetails);
+      const token = userDetails?.token || response.data.token; 
 
       if (userDetails && token) {
-        const userData = { ...userDetails, token };
+        const userData = { 
+          ...userDetails, 
+          role: userDetails.role?.toUpperCase() || "",
+          token 
+        };
 
         localStorage.setItem("user", JSON.stringify(userData));
-
         toast.success("Sesión iniciada correctamente");
-        navigate("/");  
+        navigate("/dashboard");
       } else {
         throw new Error("Error al obtener datos del usuario.");
       }
@@ -30,8 +34,9 @@ export const useLogin = () => {
       toast.error(
         error?.response?.data?.msg || "Ocurrió un error al iniciar sesión, intenta de nuevo"
       );
+      throw error; 
     } finally {
-      setIsLoading(false);  
+      setIsLoading(false);
     }
   };
 
