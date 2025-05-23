@@ -18,7 +18,7 @@ export const Hotel = () => {
 
   const handleReservation = (hotelId) => {
     if (!selectedRoom) return alert("Selecciona una habitación.");
-    clearMessages(); 
+    clearMessages();
     const reservationData = {
       roomList: [selectedRoom],
     };
@@ -29,7 +29,7 @@ export const Hotel = () => {
     if (response || error) {
       const timer = setTimeout(() => {
         clearMessages();
-        if (response) setSelectedRoom(null); 
+        if (response) setSelectedRoom(null);
       }, 5000);
 
       return () => clearTimeout(timer);
