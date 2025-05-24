@@ -38,6 +38,12 @@ export function SidebarDemo() {
                 className="sidebar-link"
               />
 
+              <SidebarLink
+                link={{ label: "Facturas", href: "/invoice" }}
+                onClick={() => handleNavigate("/invoice")}
+                className="sidebar-link"
+              />
+
               {role === "ADMIN" && (
                 <SidebarLink
                   link={{ label: "Aceptar Usuarios", href: "/users" }}

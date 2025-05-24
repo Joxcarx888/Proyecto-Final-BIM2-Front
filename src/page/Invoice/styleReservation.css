@@ -1,0 +1,195 @@
+.page-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.reservations-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.reservations-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: flex-start;
+}
+
+.reservation-card {
+  flex: 0 0 calc(20% - 1.5rem); /* 5 cards por fila (100%/5) con gap incluido */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+  min-height: 300px; /* Altura mínima para uniformidad */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.reservation-card h2 {
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reservation-card p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.reservation-card ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0.5rem 0 1rem 0;
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 120px;
+}
+
+.reservation-card ul li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.95rem;
+}
+
+.reservation-card ul li:last-child {
+  border-bottom: none;
+}
+
+.reservation-card strong {
+  color: #007acc;
+}
+
+.loading,
+.error,
+.no-reservations {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  margin-top: 3rem;
+}
+
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+
+.status-cancelled {
+  color: red;
+  font-weight: bold;
+}
+
+.button {
+  background-color: #007acc;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #0062a3;
+}
+
+.pay-all {
+  margin-bottom: 1.5rem;
+  background-color: #28a745;
+}
+
+.pay-all:hover {
+  background-color: #218838;
+}
+
+.button.cancel {
+  background-color: #dc3545;
+}
+
+.button.cancel:hover {
+  background-color: #c82333;
+}
+
+.invoice-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.invoice-form {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.invoice-form h3 {
+  margin-top: 0;
+}
+
+.invoice-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.invoice-form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+@media (max-width: 1200px) {
+  .reservation-card {
+    flex: 0 0 calc(25% - 1.5rem); 
+  }
+}
+
+@media (max-width: 900px) {
+  .reservation-card {
+    flex: 0 0 calc(33.333% - 1.5rem); 
+  }
+}
+
+@media (max-width: 700px) {
+  .reservation-card {
+    flex: 0 0 calc(50% - 1.5rem); 
+  }
+}
+
+@media (max-width: 500px) {
+  .reservation-card {
+    flex: 0 0 100%; 
+  }
+}
