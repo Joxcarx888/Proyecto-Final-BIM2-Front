@@ -4,6 +4,7 @@ import { HotelDetailPage } from "./page/hotel";
 import { UsersPage } from "./page/users"; 
 import { Navigate } from "react-router-dom";
 import {ReservationsPage} from "./page/reservations"
+import {InvoicesPage} from "./page/Invoice"
 
 const routes = [
   { path: '/auth', element: <Auth /> },
@@ -11,6 +12,7 @@ const routes = [
   { path: '/hotel/:name', element: <HotelDetailPage /> },
   { path: '/users', element: <UsersPage /> },  
   { path: '/reservations', element: <ReservationsPage /> },
+  { path: '/invoice', element: <InvoicesPage /> },
   { path: '/', element: <Navigate to={'/auth'} /> }
 ];
 

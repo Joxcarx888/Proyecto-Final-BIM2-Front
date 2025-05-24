@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getReservations } from "../../services/api";
 import { SidebarDemo } from "../../components/nanvbars/sidevbar";
-import { useCreateInvoice } from "../../shared/hooks/useCreateInvoice";
+import { useCreateInvoiceUnified } from "../../shared/hooks";
 import { useRemoveRoomsFromReservation } from "../../shared/hooks/useRemoveRoomsFromReservation";
 import { toast } from "react-hot-toast";
 import "./styleReservation.css";
@@ -14,7 +14,7 @@ export const ReservationsPage = () => {
   const [diasEstadia, setDiasEstadia] = useState("");
   const [mode, setMode] = useState(null);
 
-  const { createInvoice, loading: creatingInvoice } = useCreateInvoice();
+  const { createInvoice, loading: creatingInvoice } = useCreateInvoiceUnified();
   const { removeRoomsFromReservation } = useRemoveRoomsFromReservation();
 
   useEffect(() => {

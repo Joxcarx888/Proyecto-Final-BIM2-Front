@@ -100,7 +100,7 @@ export const getReservations = async (role) => {
       url = 'reservations/hotel';
     } else {
       console.warn(`Rol no soportado: ${role}`);
-      url = 'reservations/client'; // fallback
+      url = 'reservations/client'; 
     }
 
     const response = await apiClient.get(url);
@@ -143,6 +143,29 @@ export const createInvoice = async ({ hotelId, diasEstadia }) => {
   }
 };
 
+export const createInvoiceEvent = async ({ eventData }) => {
+  try {
+    const response = await apiClient.post('invoice/create/event', {eventData});
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear factura:", error);
+    throw error;
+  }
+};
+
+export const createEvent = async (eventData) => {
+  try {
+    const response = await apiClient.post('events/', {
+      ...eventData,
+      diasEstadia: Number(eventData.diasEstadia),
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear evento:", error);
+    throw error;
+  }
+};
+
 
 export const removeRoomsFromReservation = async (roomList) => {
   try {
@@ -156,6 +179,15 @@ export const removeRoomsFromReservation = async (roomList) => {
   }
 };
 
+export const getInvoicesByClient = async () => {
+  try {
+    const response = await apiClient.get("invoice/client"); 
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener facturas:", error);
+    throw error;
+  }
+};
 
 
 
