@@ -19,8 +19,10 @@ export const useUserDetails = () => {
     username: userDetails?.username ?? "Guest",
     role: userDetails?.role ?? "",
     token: userDetails?.token ?? null,
+    hotel: userDetails?.hotel ?? null,
     logout,
     setUserDetails,
     user: userDetails,
   };
 };
+

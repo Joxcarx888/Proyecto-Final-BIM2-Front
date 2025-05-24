@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useAddReservation, useAddEvents, useGetHotelsByName } from "../../shared/hooks";
+import { useAddReservation, useAddEvents, useGetHotelsByName, useUserDetails } from "../../shared/hooks";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import "./Hotel.css";
 
 export const Hotel = ({ hotel }) => {
-  const { rooms, isLoading } = useGetHotelsByName(hotel.name); // solo para obtener habitaciones
+  const { role, hotel: userHotelId } = useUserDetails();
+  const { rooms, isLoading } = useGetHotelsByName(hotel.name); 
   const {
     addReservation,
     loading,
@@ -91,6 +92,19 @@ export const Hotel = ({ hotel }) => {
       <div className="hotel-details">
         <h2 className="text-2xl font-bold mb-4">Detalles del hotel: {hotel.name}</h2>
 
+        {role === "ADMIN" && (
+          <button className="edit-button mb-4">
+            Editar
+          </button>
+        )}
+
+        {role === "HOTEL" && userHotelId === hotel._id && (
+          <button className="add-room-button mb-4">
+            Añadir room
+          </button>
+        )}
+
+
         <div className="hotel-card">
           <img
             src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/16/1b/4b/hotel-exterior.jpg?w=900&h=500&s=1"
@@ -121,7 +135,6 @@ export const Hotel = ({ hotel }) => {
           {error && <p className="text-red-500 mt-2">{error}</p>}
           {response && <p className="text-green-600 mt-2">{response.message}</p>}
 
-          {/* Formulario de eventos */}
           <div className="event-form mt-6">
             <h4 className="text-md font-semibold mb-2">Crear Evento</h4>
             <input

@@ -26,32 +26,40 @@ export function SidebarDemo() {
         <Sidebar open={open} setOpen={setOpen}>
           <SidebarBody className="sidebar-body justify-between gap-10">
             <div className="sidebar-links">
-              <SidebarLink
-                link={{ label: "Dashboard", href: "/dashboard" }}
-                onClick={() => handleNavigate("/dashboard")}
-                className="sidebar-link"
-              />
+          <SidebarLink
+            link={{ label: "Dashboard", href: "/dashboard" }}
+            onClick={() => handleNavigate("/dashboard")}
+            className="sidebar-link"
+          />
 
-              <SidebarLink
-                link={{ label: "Reservaciones", href: "/reservations" }}
-                onClick={() => handleNavigate("/reservations")}
-                className="sidebar-link"
-              />
+          <SidebarLink
+            link={{ label: "Reservaciones", href: "/reservations" }}
+            onClick={() => handleNavigate("/reservations")}
+            className="sidebar-link"
+          />
 
-              <SidebarLink
-                link={{ label: "Facturas", href: "/invoice" }}
-                onClick={() => handleNavigate("/invoice")}
-                className="sidebar-link"
-              />
+          <SidebarLink
+            link={{ label: "Facturas", href: "/invoice" }}
+            onClick={() => handleNavigate("/invoice")}
+            className="sidebar-link"
+          />
 
-              {role === "ADMIN" && (
-                <SidebarLink
-                  link={{ label: "Aceptar Usuarios", href: "/users" }}
-                  onClick={() => handleNavigate("/users")}
-                  className="sidebar-link"
-                />
-              )}
-            </div>
+          {role === "ADMIN" && (
+            <SidebarLink
+              link={{ label: "Aceptar Usuarios", href: "/users" }}
+              onClick={() => handleNavigate("/users")}
+              className="sidebar-link"
+            />
+          )}
+
+          {role === "HOTEL" && (
+            <SidebarLink
+              link={{ label: "Mis habitaciones", href: "#" }}
+              onClick={() => {}} 
+              className="sidebar-link"
+            />
+          )}
+        </div>
 
             <div className="sidebar-footer">
               <SidebarLink
