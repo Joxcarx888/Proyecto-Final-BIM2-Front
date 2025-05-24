@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getReservations } from "../../services/api";
 import { SidebarDemo } from "../../components/nanvbars/sidevbar";
 import { useCreateInvoiceUnified } from "../../shared/hooks";
-import { useRemoveRoomsFromReservation } from "../../shared/hooks/useRemoveRoomsFromReservation";
+// import { useRemoveRoomsFromReservation } from "../../shared/hooks/useRemoveRoomsFromReservation";
 import { toast } from "react-hot-toast";
 import "./styleReservation.css";
 
@@ -15,7 +15,7 @@ export const ReservationsPage = () => {
   const [mode, setMode] = useState(null);
 
   const { createInvoice, loading: creatingInvoice } = useCreateInvoiceUnified();
-  const { removeRoomsFromReservation } = useRemoveRoomsFromReservation();
+  // const { removeRoomsFromReservation } = useRemoveRoomsFromReservation();
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -60,16 +60,24 @@ export const ReservationsPage = () => {
 
     try {
       if (mode?.type === 'one') {
-        await createInvoice({ hotelId: mode.hotelId, diasEstadia });
-        await removeRoomsFromReservation(mode.roomList.map((r) => r._id));
+        await createInvoice({
+          type: 'reservation',
+          data: { hotelId: mode.hotelId, diasEstadia }
+        });
+
+        // await removeRoomsFromReservation(mode.roomList.map((r) => r._id));
         setReservations((prev) => prev.filter((r) => r._id !== mode.reservationId));
         toast.success("Factura generada correctamente");
       } else if (mode?.type === 'all') {
         let successCount = 0;
         for (const res of activeReservations) {
           try {
-            await createInvoice({ hotelId: res.hotel._id, diasEstadia });
-            await removeRoomsFromReservation(res.roomList.map((r) => r._id));
+            await createInvoice({
+              type: 'reservation',
+              data: { hotelId: res.hotel._id, diasEstadia }
+            });
+
+            // await removeRoomsFromReservation(res.roomList.map((r) => r._id));
             successCount++;
           } catch (err) {
             console.error(`Error en reserva ${res._id}:`, err);

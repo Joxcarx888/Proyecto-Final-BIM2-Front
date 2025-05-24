@@ -179,15 +179,31 @@ export const removeRoomsFromReservation = async (roomList) => {
   }
 };
 
-export const getInvoicesByClient = async () => {
+export const getInvoices = async (role) => {
   try {
-    const response = await apiClient.get("invoice/client"); 
+    let url = '';
+
+    if (role === 'ADMIN') {
+      url = 'invoice/admin';
+    } else if (role === 'CLIENT') {
+      url = 'invoice/client';
+    } else if (role === 'HOTEL') {
+      url = 'invoice/hotel';
+    } else {
+      console.warn(`Rol no soportado: ${role}`);
+      url = 'invoice/client';
+    }
+
+    const response = await apiClient.get(url);
     return response.data;
   } catch (error) {
-    console.error("Error al obtener facturas:", error);
+    console.error("Error al obtener las facturas:", error);
     throw error;
   }
 };
+
+
+
 
 
 
