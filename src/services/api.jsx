@@ -202,6 +202,27 @@ export const getInvoices = async (role) => {
   }
 };
 
+export const updateHotelById = async (id, data) => {
+  try {
+    const response = await apiClient.put(`hotels/update-hotel/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar hotel:", error);
+    throw error;
+  }
+};
+
+export const addRoom = async (roomData) => {
+  try {
+    const response = await apiClient.post("rooms/", roomData);
+    return response.data;
+  } catch (error) {
+    console.error("Error al agregar room:", error);
+    throw error;
+  }
+};
+
+
 
 
 
