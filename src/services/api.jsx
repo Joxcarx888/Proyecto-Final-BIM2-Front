@@ -274,6 +274,17 @@ export const updateEventById = async (id, data) => {
   }
 };
 
+export const deleteReservationById = async (reservationId) => { 
+  try {
+    console.log(reservationId);
+    const response = await apiClient.delete(`reservations/reservation/${reservationId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al cancelar la reservación:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
 export const deleteEventById = async (id) => {
   try {
     const response = await apiClient.delete(`events/${id}`);
