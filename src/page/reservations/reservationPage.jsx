@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { getReservations } from "../../services/api";
 import { SidebarDemo } from "../../components/nanvbars/sidevbar";
-import { useCreateInvoiceUnified, useRemoveRoomsFromReservation } from "../../shared/hooks";
+import {
+  useCreateInvoiceUnified,
+  useRemoveRoomsFromReservation,
+  useDeleteReservation,
+} from "../../shared/hooks";
 import { toast } from "react-hot-toast";
 import "./styleReservation.css";
 
@@ -16,14 +20,14 @@ export const ReservationsPage = () => {
 
   const { createInvoice, loading: creatingInvoice } = useCreateInvoiceUnified();
   const { removeRooms, loading: removingRooms } = useRemoveRoomsFromReservation();
+  const { deleteReservation, loading: deletingReservation } = useDeleteReservation();
 
   useEffect(() => {
     const fetchReservations = async () => {
       try {
         const userStr = localStorage.getItem("user");
         const user = userStr ? JSON.parse(userStr) : null;
-        const role = user?.role ? user.role.toUpperCase().trim() : "";
-
+        const role = user?.role?.toUpperCase().trim() || "";
         const data = await getReservations(role);
         setReservations(data.reservaciones || []);
       } catch (err) {
@@ -33,22 +37,16 @@ export const ReservationsPage = () => {
         setLoading(false);
       }
     };
-
     fetchReservations();
   }, []);
 
   const handlePagarUna = (reservationId, hotelId, roomList) => {
-    setMode({
-      type: 'one',
-      reservationId,
-      hotelId,
-      roomList
-    });
+    setMode({ type: "one", reservationId, hotelId, roomList });
     setShowForm(true);
   };
 
   const handlePagarTodas = () => {
-    setMode({ type: 'all' });
+    setMode({ type: "all" });
     setShowForm(true);
   };
 
@@ -59,22 +57,26 @@ export const ReservationsPage = () => {
     const activeReservations = reservations.filter((res) => res.state === true);
 
     try {
-      if (mode?.type === 'one') {
+      if (mode?.type === "one") {
         await createInvoice({
-          type: 'reservation',
-          data: { hotelId: mode.hotelId, diasEstadia }
+          type: "reservation",
+          data: { hotelId: mode.hotelId, diasEstadia },
         });
 
         await removeRooms(mode.roomList.map((r) => r._id));
-        setReservations((prev) => prev.filter((r) => r._id !== mode.reservationId));
+
+        setReservations((prev) =>
+          prev.filter((r) => r._id !== mode.reservationId)
+        );
+
         toast.success("Factura generada correctamente");
-      } else if (mode?.type === 'all') {
+      } else if (mode?.type === "all") {
         let successCount = 0;
         for (const res of activeReservations) {
           try {
             await createInvoice({
-              type: 'reservation',
-              data: { hotelId: res.hotel._id, diasEstadia }
+              type: "reservation",
+              data: { hotelId: res.hotel._id, diasEstadia },
             });
             await removeRooms(res.roomList.map((r) => r._id));
             successCount++;
@@ -82,7 +84,6 @@ export const ReservationsPage = () => {
             console.error(`Error en reserva ${res._id}:`, err);
           }
         }
-
         setReservations((prev) => prev.filter((r) => !r.state));
         if (successCount > 0) {
           toast.success(`${successCount} factura(s) generadas correctamente`);
@@ -92,6 +93,7 @@ export const ReservationsPage = () => {
       }
     } catch (err) {
       console.error("Error al procesar pagos:", err);
+      toast.error("Ocurrió un error durante el proceso de facturación.");
     } finally {
       setShowForm(false);
       setDiasEstadia("");
@@ -116,18 +118,39 @@ export const ReservationsPage = () => {
       return;
     }
 
-    await removeRooms(roomIds);
-    setReservations((prev) =>
-      prev.map((res) =>
-        res._id === reservationId
-          ? {
-              ...res,
-              roomList: res.roomList.filter((room) => !roomIds.includes(room._id))
-            }
-          : res
-      )
-    );
-    setSelectedRooms((prev) => ({ ...prev, [reservationId]: [] }));
+    try {
+      await removeRooms(roomIds);
+      setReservations((prev) =>
+        prev.map((res) =>
+          res._id === reservationId
+            ? {
+                ...res,
+                roomList: res.roomList.filter(
+                  (room) => !roomIds.includes(room._id)
+                ),
+              }
+            : res
+        )
+      );
+      setSelectedRooms((prev) => ({ ...prev, [reservationId]: [] }));
+      toast.success("Habitaciones eliminadas correctamente.");
+    } catch (err) {
+      console.error("Error al eliminar habitaciones:", err);
+      toast.error("No se pudieron eliminar las habitaciones.");
+    }
+  };
+
+  const handleCancelReservation = async (reservationId, hotelId) => {
+    try {
+      await deleteReservation(reservationId, hotelId);
+      setReservations((prev) =>
+        prev.filter((res) => res._id !== reservationId)
+      );
+      toast.success("Reservación cancelada con éxito.");
+    } catch (error) {
+      console.error("Error al cancelar reservación:", error);
+      toast.error("No se pudo cancelar la reservación.");
+    }
   };
 
   const activeReservationsExist = reservations.some((res) => res.state);
@@ -159,10 +182,15 @@ export const ReservationsPage = () => {
                       <label>
                         <input
                           type="checkbox"
-                          checked={selectedRooms[res._id]?.includes(room._id) || false}
-                          onChange={() => toggleRoomSelection(res._id, room._id)}
+                          checked={
+                            selectedRooms[res._id]?.includes(room._id) || false
+                          }
+                          onChange={() =>
+                            toggleRoomSelection(res._id, room._id)
+                          }
                         />
-                        #{room.roomNumber} - {room.type} - ${room.price} - {room.available ? "Disponible" : "No disponible"}
+                        #{room.roomNumber} - {room.type} - ${room.price} -{" "}
+                        {room.available ? "Disponible" : "No disponible"}
                       </label>
                     </li>
                   ))}
@@ -174,7 +202,9 @@ export const ReservationsPage = () => {
                   <>
                     <button
                       className="button"
-                      onClick={() => handlePagarUna(res._id, res.hotel._id, res.roomList)}
+                      onClick={() =>
+                        handlePagarUna(res._id, res.hotel._id, res.roomList)
+                      }
                     >
                       Pagar
                     </button>
@@ -183,7 +213,14 @@ export const ReservationsPage = () => {
                       disabled={removingRooms}
                       onClick={() => handleRemoveRooms(res._id)}
                     >
-                      {removingRooms ? "Eliminando..." : "Eliminar habitaciones seleccionadas"}
+                      {removingRooms ? "Eliminando..." : "Eliminar habitaciones"}
+                    </button>
+                    <button
+                      className="button cancel"
+                      onClick={() => handleCancelReservation(res._id, res.hotel._id)}
+                      disabled={deletingReservation}
+                    >
+                      {deletingReservation ? "Cancelando..." : "Cancelar"}
                     </button>
                   </>
                 )}
@@ -195,7 +232,11 @@ export const ReservationsPage = () => {
         {showForm && (
           <div className="invoice-form-overlay">
             <form className="invoice-form" onSubmit={handleSubmit}>
-              <h3>{mode?.type === 'all' ? "Pagar todas las reservaciones" : "Generar Factura"}</h3>
+              <h3>
+                {mode?.type === "all"
+                  ? "Pagar todas las reservaciones"
+                  : "Generar Factura"}
+              </h3>
               <label>Días de estadía:</label>
               <input
                 type="number"
@@ -205,7 +246,11 @@ export const ReservationsPage = () => {
                 required
               />
               <div className="form-buttons">
-                <button type="submit" className="button" disabled={creatingInvoice}>
+                <button
+                  type="submit"
+                  className="button"
+                  disabled={creatingInvoice}
+                >
                   {creatingInvoice ? "Procesando..." : "Confirmar Pago"}
                 </button>
                 <button
