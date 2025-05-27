@@ -65,6 +65,7 @@ export const ReservationsPage = () => {
           data: { hotelId: mode.hotelId, diasEstadia }
         });
 
+        await removeRooms(mode.roomList.map((r) => r._id));
         setReservations((prev) => prev.filter((r) => r._id !== mode.reservationId));
         toast.success("Factura generada correctamente");
       } else if (mode?.type === 'all') {
@@ -75,6 +76,7 @@ export const ReservationsPage = () => {
               type: 'reservation',
               data: { hotelId: res.hotel._id, diasEstadia }
             });
+            await removeRooms(res.roomList.map((r) => r._id));
             successCount++;
           } catch (err) {
             console.error(`Error en reserva ${res._id}:`, err);

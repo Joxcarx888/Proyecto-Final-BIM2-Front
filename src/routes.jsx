@@ -3,10 +3,10 @@ import { Auth } from "./page/auth";
 import { HotelDetailPage } from "./page/hotel";
 import { UsersPage,ProfilePage } from "./page/users"; 
 import { Navigate } from "react-router-dom";
-import {ReservationsPage} from "./page/reservations"
-import {InvoicesPage} from "./page/Invoice"
-import {EventsPage} from "./page/events"
-import {PasswordRecoveryPage} from "./page/recoverPassword"
+import { ReservationsPage } from "./page/reservations";
+import { InvoicesPage } from "./page/Invoice";
+import { EventsPage } from "./page/events";
+import { PasswordRecoveryPage } from "./page/recoverPassword";
 
 const routes = [
   { path: '/auth', element: <Auth /> },
