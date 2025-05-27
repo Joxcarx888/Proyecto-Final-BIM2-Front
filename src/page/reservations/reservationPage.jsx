@@ -62,9 +62,13 @@ export const ReservationsPage = () => {
           type: "reservation",
           data: { hotelId: mode.hotelId, diasEstadia },
         });
+
+        await removeRooms(mode.roomList.map((r) => r._id));
+
         setReservations((prev) =>
           prev.filter((r) => r._id !== mode.reservationId)
         );
+
         toast.success("Factura generada correctamente");
       } else if (mode?.type === "all") {
         let successCount = 0;
@@ -74,6 +78,7 @@ export const ReservationsPage = () => {
               type: "reservation",
               data: { hotelId: res.hotel._id, diasEstadia },
             });
+            await removeRooms(res.roomList.map((r) => r._id));
             successCount++;
           } catch (err) {
             console.error(`Error en reserva ${res._id}:`, err);
@@ -135,9 +140,9 @@ export const ReservationsPage = () => {
     }
   };
 
-  const handleCancelReservation = async (reservationId, hotelId) => { // Add hotelId parameter
+  const handleCancelReservation = async (reservationId, hotelId) => {
     try {
-      await deleteReservation(reservationId, hotelId); // Pass both
+      await deleteReservation(reservationId, hotelId);
       setReservations((prev) =>
         prev.filter((res) => res._id !== reservationId)
       );
@@ -212,7 +217,7 @@ export const ReservationsPage = () => {
                     </button>
                     <button
                       className="button cancel"
-                      onClick={() => handleCancelReservation(res._id, res.hotel._id)} // Pass both res._id and res.hotel._id
+                      onClick={() => handleCancelReservation(res._id, res.hotel._id)}
                       disabled={deletingReservation}
                     >
                       {deletingReservation ? "Cancelando..." : "Cancelar"}
