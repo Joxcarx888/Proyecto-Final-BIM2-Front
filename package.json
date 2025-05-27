@@ -16,6 +16,7 @@
     "date-fns": "^4.1.0",
     "framer-motion": "^12.12.1",
     "helmet": "^8.1.0",
+    "jwt-decode": "^4.0.0",
     "motion": "^12.12.1",
     "motion-react": "^0.15.0-alpha.1",
     "react": "^19.1.0",

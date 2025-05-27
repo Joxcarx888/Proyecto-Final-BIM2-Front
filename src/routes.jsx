@@ -1,7 +1,7 @@
 import { DashboardPage } from "./page/dashboard/dashboardPage";
 import { Auth } from "./page/auth";
 import { HotelDetailPage } from "./page/hotel";
-import { UsersPage } from "./page/users";
+import { UsersPage,ProfilePage } from "./page/users"; 
 import { Navigate } from "react-router-dom";
 import { ReservationsPage } from "./page/reservations";
 import { InvoicesPage } from "./page/Invoice";
@@ -12,7 +12,8 @@ const routes = [
   { path: '/auth', element: <Auth /> },
   { path: '/dashboard', element: <DashboardPage /> },
   { path: '/hotel/:name', element: <HotelDetailPage /> },
-  { path: '/users', element: <UsersPage /> },
+  { path: '/users', element: <UsersPage /> },  
+  { path: '/user', element: <ProfilePage /> },  
   { path: '/reservations', element: <ReservationsPage /> },
   { path: '/invoice', element: <InvoicesPage /> },
   { path: '/events', element: <EventsPage /> },
@@ -21,4 +22,3 @@ const routes = [
 ];
 
 export default routes;
-``

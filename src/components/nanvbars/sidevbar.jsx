@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import profile from "../../assets/img/profile.png";
 import { useUserDetails } from "../../shared/hooks";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 import { cn } from "../../lib/utils";
 import "./sidebar.css";
 
 export function SidebarDemo() {
-  const { isLogged, logout, role } = useUserDetails();
+  const { isLogged, logout, role, username } = useUserDetails();
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
 
@@ -84,6 +85,20 @@ export function SidebarDemo() {
             </div>
 
             <div className="sidebar-footer">
+              <SidebarLink
+                link={{
+                  label: isLogged ? username : "User",
+                  href: "/user",
+                  icon: (
+                    <img
+                      src={profile}
+                      className="sidebar-avatar"
+                      alt="Avatar"
+                    />
+                  ),
+                }}
+                className="sidebar-link"
+              />
               <SidebarLink
                 link={{
                   label: isLogged ? "Logout" : "Login",
