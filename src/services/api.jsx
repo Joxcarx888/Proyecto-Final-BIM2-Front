@@ -222,6 +222,28 @@ export const addRoom = async (roomData) => {
   }
 };
 
+export const getEvents = async () => {
+  try {
+    const userStr = localStorage.getItem("user");
+    const user = userStr ? JSON.parse(userStr) : null;
+    const role = user?.role?.toUpperCase();
+
+    let url = "events";
+
+    if (role === "HOTEL") {
+      url = "events/hotel";
+    } else if (role === "ADMIN") {
+      url = "events/all";
+    }
+
+    const response = await apiClient.get(url);
+    return Array.isArray(response.data.events) ? response.data.events : [];
+  } catch (error) {
+    console.error("Error al obtener eventos:", error);
+    return [];
+  }
+};
+
 
 
 
