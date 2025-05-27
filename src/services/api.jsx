@@ -253,6 +253,17 @@ export const getEvents = async () => {
   }
 };
 
+export const updateUserById = async (id, data) => {
+  try {
+    console.log("Datos enviados al backend:", data);
+    const response = await apiClient.put(`/users/editar/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar usuario:", error);
+    throw error;
+  }
+};
+
 export const updateEventById = async (id, data) => {
   try {
     const response = await apiClient.put(`events/${id}`, data);

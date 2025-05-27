@@ -1,0 +1,26 @@
+.profile-container input,
+.profile-container label {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.profile-container input {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.profile-container button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.profile-container button:disabled {
+  background-color: #a1c4e8;
+}
