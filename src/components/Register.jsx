@@ -57,7 +57,7 @@ export const Register = ({ switchAuthHandler }) => {
         isHotelOwner ? data.hotelId : null
       );
       toast.success("Usuario registrado exitosamente");
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       if (error.response?.status === 409) {
         toast.error("Ya existe una cuenta con ese correo electrónico");

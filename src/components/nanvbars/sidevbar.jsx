@@ -45,9 +45,39 @@ export function SidebarDemo() {
               />
 
               {role === "ADMIN" && (
+                <>
+                  <SidebarLink
+                    link={{ label: "Aceptar Usuarios", href: "/users" }}
+                    onClick={() => handleNavigate("/users")}
+                    className="sidebar-link"
+                  />
+                  <SidebarLink
+                    link={{ label: "Eventos", href: "/events" }}
+                    onClick={() => handleNavigate("/events")}
+                    className="sidebar-link"
+                  />
+                </>
+              )}
+
+              {role === "HOTEL" && (
+                <>
+                  <SidebarLink
+                    link={{ label: "Mis habitaciones", href: "#" }}
+                    onClick={() => {}}
+                    className="sidebar-link"
+                  />
+                  <SidebarLink
+                    link={{ label: "Eventos", href: "/events" }}
+                    onClick={() => handleNavigate("/events")}
+                    className="sidebar-link"
+                  />
+                </>
+              )}
+
+              {role === "CLIENT" && (
                 <SidebarLink
-                  link={{ label: "Aceptar Usuarios", href: "/users" }}
-                  onClick={() => handleNavigate("/users")}
+                  link={{ label: "Eventos", href: "/events" }}
+                  onClick={() => handleNavigate("/events")}
                   className="sidebar-link"
                 />
               )}

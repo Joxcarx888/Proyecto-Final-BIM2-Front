@@ -43,6 +43,35 @@
   background-color: #059669;
 }
 
+
+.edit-button {
+  background-color: #3b82f6; 
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+  background-color: #2563eb;
+}
+
+.add-room-button {
+  background-color: #facc15; 
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-room-button:hover {
+  background-color: #eab308;
+}
+
 .room-card {
   border: 1px solid #ccc;
   padding: 0.75rem;
@@ -52,9 +81,59 @@
 }
 
 .room-card.available {
-  background-color: #22c55e; /* verde */
+  background-color: #22c55e; 
 }
 
 .room-card.unavailable {
-  background-color: #ef4444; /* rojo */
+  background-color: #ef4444; 
 }
+
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  max-width: 100%;
+  height: 100%;
+  background: white;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+  padding: 2rem;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.update-button {
+  background-color: #2563eb; /* Azul */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.update-button:hover {
+  background-color: #1d4ed8;
+}
+
+.update-button:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+

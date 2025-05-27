@@ -48,6 +48,24 @@ export const getHotels = async () => {
   }
 };
 
+export const forgotPassword = async (email) => {
+  try {
+    return await apiClient.post("users/forgot-password", { email });
+  } catch (e) {
+    return { error: true, e };
+  }
+};
+
+export const resetPassword = async (token, newPassword) => {
+  try {
+    return await apiClient.post(`users/reset-password/${token}`, { password: newPassword });
+  } catch (e) {
+    return { error: true, e };
+  }
+};
+
+
+
 export const getHotelsByName = async (name) => {
   try {
     const response = await apiClient.get(`hotels/get-hotel-by-name/${name}`);
@@ -144,15 +162,6 @@ export const createInvoice = async ({ hotelId, diasEstadia }) => {
   }
 };
 
-export const createInvoiceEvent = async ({ eventData }) => {
-  try {
-    const response = await apiClient.post('invoice/create/event', {eventData});
-    return response.data;
-  } catch (error) {
-    console.error("Error al crear factura:", error);
-    throw error;
-  }
-};
 
 export const createEvent = async (eventData) => {
   try {
@@ -179,15 +188,106 @@ export const removeRoomsFromReservation = async (roomList) => {
   }
 };
 
-export const getInvoicesByClient = async () => {
+export const getInvoices = async (role) => {
   try {
-    const response = await apiClient.get("invoice/client"); 
+    let url = '';
+
+    if (role === 'ADMIN') {
+      url = 'invoice/admin';
+    } else if (role === 'CLIENT') {
+      url = 'invoice/client';
+    } else if (role === 'HOTEL') {
+      url = 'invoice/hotel';
+    } else {
+      console.warn(`Rol no soportado: ${role}`);
+      url = 'invoice/client';
+    }
+
+    const response = await apiClient.get(url);
     return response.data;
   } catch (error) {
-    console.error("Error al obtener facturas:", error);
+    console.error("Error al obtener las facturas:", error);
     throw error;
   }
 };
+
+export const updateHotelById = async (id, data) => {
+  try {
+    const response = await apiClient.put(`hotels/update-hotel/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar hotel:", error);
+    throw error;
+  }
+};
+
+export const addRoom = async (roomData) => {
+  try {
+    const response = await apiClient.post("rooms/", roomData);
+    return response.data;
+  } catch (error) {
+    console.error("Error al agregar room:", error);
+    throw error;
+  }
+};
+
+export const getEvents = async () => {
+  try {
+    const userStr = localStorage.getItem("user");
+    const user = userStr ? JSON.parse(userStr) : null;
+    const role = user?.role?.toUpperCase();
+
+    let url = "events";
+
+    if (role === "HOTEL") {
+      url = "events/hotel";
+    } else if (role === "ADMIN") {
+      url = "events/all";
+    }
+
+    const response = await apiClient.get(url);
+    return Array.isArray(response.data.events) ? response.data.events : [];
+  } catch (error) {
+    console.error("Error al obtener eventos:", error);
+    return [];
+  }
+};
+
+export const updateEventById = async (id, data) => {
+  try {
+    const response = await apiClient.put(`events/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar evento:", error);
+    throw error;
+  }
+};
+
+export const deleteEventById = async (id) => {
+  try {
+    const response = await apiClient.delete(`events/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar evento:", error);
+    throw error;
+  }
+};
+
+export const createInvoiceEvent = async ({ eventId }) => {
+  try {
+    const response = await apiClient.post('invoice/create/event', { eventId });
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear factura de evento:", error);
+    throw error;
+  }
+};
+
+
+
+
+
+
 
 
 

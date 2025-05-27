@@ -1,15 +1,21 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { getInvoicesByClient } from "../../services/api";
+import { getInvoices } from "../../services/api"; 
 
-export const useGetInvoicesByClient = () => {
+export const useGetInvoices = (role) => {
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const fetchInvoices = async () => {
+    if (!role) {
+      toast.error("Rol no definido");
+      return;
+    }
+
     setLoading(true);
     try {
-      const response = await getInvoicesByClient();
+      const response = await getInvoices(role);
+
       if (response.success) {
         setInvoices(response.invoices || []);
       } else {
@@ -17,7 +23,7 @@ export const useGetInvoicesByClient = () => {
         setInvoices([]);
       }
     } catch (error) {
-      console.log("ERROR FACTURAS:", error);
+      console.error("ERROR FACTURAS:", error);
       const msg = error.response?.data?.message || "Error al cargar facturas";
       toast.error(msg);
       setInvoices([]);
@@ -28,7 +34,7 @@ export const useGetInvoicesByClient = () => {
 
   useEffect(() => {
     fetchInvoices();
-  }, []);
+  }, [role]);
 
   return { invoices, loading, refetch: fetchInvoices };
 };

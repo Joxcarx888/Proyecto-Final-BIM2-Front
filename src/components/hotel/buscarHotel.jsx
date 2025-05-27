@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { useAddReservation, useAddEvents, useGetHotelsByName } from "../../shared/hooks";
+import { useNavigate } from "react-router-dom";
+import {
+  useAddReservation,
+  useAddEvents,
+  useGetHotelsByName,
+  useUserDetails,
+  useUpdateHotel,
+  useAddRoom,
+} from "../../shared/hooks";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
+import toast from "react-hot-toast";
 import "./Hotel.css";
 
 export const Hotel = ({ hotel }) => {
-  const { rooms, isLoading } = useGetHotelsByName(hotel.name); // solo para obtener habitaciones
+  const { role, hotel: userHotelId } = useUserDetails();
+  const { rooms, isLoading } = useGetHotelsByName(hotel.name);
+  const navigate = useNavigate();
+
   const {
     addReservation,
     loading,
@@ -22,10 +34,42 @@ export const Hotel = ({ hotel }) => {
     clearMessages: clearEventMessages,
   } = useAddEvents();
 
+  const {
+    updateHotel,
+    loading: updatingHotel,
+    error: updateError,
+    response: updateResponse,
+    clearMessages: clearUpdateMessages,
+  } = useUpdateHotel();
+
+  const {
+    addRoom,
+    loading: addingRoom,
+    error: roomError,
+    response: roomResponse,
+    clearMessages: clearRoomMessages,
+  } = useAddRoom();
+
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [eventTime, setEventTime] = useState('');
+  const [showEditPanel, setShowEditPanel] = useState(false);
+  const [showAddRoomPanel, setShowAddRoomPanel] = useState(false);
+  const [editForm, setEditForm] = useState({
+    name: hotel.name,
+    address: hotel.address,
+    category: hotel.category,
+    roomsAvailable: hotel.roomsAvailable,
+    amenities: hotel.amenities,
+    priceEvent: hotel.priceEvent,
+  });
+
+  const [newRoomData, setNewRoomData] = useState({
+    roomNumber: "",
+    type: "",
+    price: "",
+  });
 
   const handleRoomSelect = (roomId) => {
     setSelectedRoom((prev) => (prev === roomId ? null : roomId));
@@ -58,13 +102,57 @@ export const Hotel = ({ hotel }) => {
     createEvent(eventData);
   };
 
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditForm((prev) => ({
+      ...prev,
+      [name]: name === "roomsAvailable" || name === "priceEvent" ? Number(value) : value,
+    }));
+  };
+
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+    clearUpdateMessages();
+    try {
+      await updateHotel(hotel._id, editForm);
+      toast.success("Hotel actualizado correctamente");
+      setShowEditPanel(false);
+      const newName = encodeURIComponent(editForm.name.trim());
+      navigate(`/hotel/${newName}`);
+      window.location.reload();
+    } catch (err) {
+      toast.error("Error al actualizar hotel");
+    }
+  };
+
+  const handleAddRoomChange = (e) => {
+    const { name, value } = e.target;
+    setNewRoomData((prev) => ({
+      ...prev,
+      [name]: name === "roomNumber" || name === "price" ? Number(value) : value,
+    }));
+  };
+
+  const handleAddRoomSubmit = async (e) => {
+    e.preventDefault();
+    clearRoomMessages();
+    try {
+      await addRoom(newRoomData);
+      toast.success("Habitación añadida correctamente");
+      setNewRoomData({ roomNumber: "", type: "", price: "" });
+      setShowAddRoomPanel(false);
+      window.location.reload();
+    } catch {
+      toast.error("Error al agregar la habitación");
+    }
+  };
+
   useEffect(() => {
     if (response || error) {
       const timer = setTimeout(() => {
         clearMessages();
         if (response) setSelectedRoom(null);
       }, 5000);
-
       return () => clearTimeout(timer);
     }
   }, [response, error, clearMessages]);
@@ -79,10 +167,15 @@ export const Hotel = ({ hotel }) => {
           setEventTime('');
         }
       }, 5000);
-
       return () => clearTimeout(timer);
     }
   }, [eventResponse, eventError, clearEventMessages]);
+
+  useEffect(() => {
+    if (roomError) {
+      toast.error(roomError);
+    }
+  }, [roomError]);
 
   if (isLoading) return <p>Cargando habitaciones...</p>;
 
@@ -90,6 +183,17 @@ export const Hotel = ({ hotel }) => {
     <div className="hotel-container">
       <div className="hotel-details">
         <h2 className="text-2xl font-bold mb-4">Detalles del hotel: {hotel.name}</h2>
+
+        {role === "HOTEL" && userHotelId === hotel._id && (
+          <>
+            <button className="edit-button mb-4" onClick={() => setShowEditPanel(true)}>
+              Editar
+            </button>
+            <button className="add-room-button mb-4" onClick={() => setShowAddRoomPanel(true)}>
+              Añadir room
+            </button>
+          </>
+        )}
 
         <div className="hotel-card">
           <img
@@ -121,7 +225,6 @@ export const Hotel = ({ hotel }) => {
           {error && <p className="text-red-500 mt-2">{error}</p>}
           {response && <p className="text-green-600 mt-2">{response.message}</p>}
 
-          {/* Formulario de eventos */}
           <div className="event-form mt-6">
             <h4 className="text-md font-semibold mb-2">Crear Evento</h4>
             <input
@@ -181,6 +284,68 @@ export const Hotel = ({ hotel }) => {
           </div>
         ))}
       </div>
+
+      {showEditPanel && (
+        <div className="side-panel">
+          <button className="close-btn" onClick={() => setShowEditPanel(false)}>X</button>
+          <h2>Editar Hotel</h2>
+          <form onSubmit={handleUpdateSubmit} className="hotel-form">
+            <label>Nombre:
+              <input name="name" type="text" required maxLength={50}
+                value={editForm.name} onChange={handleEditChange} />
+            </label>
+            <label>Dirección:
+              <input name="address" type="text" required
+                value={editForm.address} onChange={handleEditChange} />
+            </label>
+            <label>Categoría:
+              <input name="category" type="text"
+                value={editForm.category} onChange={handleEditChange} />
+            </label>
+            <label>Habitaciones disponibles:
+              <input name="roomsAvailable" type="number" min={0}
+                value={editForm.roomsAvailable} onChange={handleEditChange} />
+            </label>
+            <label>Amenidades:
+              <input name="amenities" type="text"
+                value={editForm.amenities} onChange={handleEditChange} />
+            </label>
+            <label>Precio evento:
+              <input name="priceEvent" type="number" min={0} step="0.01"
+                value={editForm.priceEvent} onChange={handleEditChange} />
+            </label>
+
+            <button type="submit" disabled={updatingHotel} className="update-button">
+              {updatingHotel ? "Actualizando..." : "Actualizar Hotel"}
+            </button>
+          </form>
+        </div>
+      )}
+
+      {showAddRoomPanel && (
+        <div className="side-panel">
+          <button className="close-btn" onClick={() => setShowAddRoomPanel(false)}>X</button>
+          <h2>Añadir Habitación</h2>
+          <form onSubmit={handleAddRoomSubmit} className="hotel-form">
+            <label>Número de habitación:
+              <input name="roomNumber" type="number" required
+                value={newRoomData.roomNumber} onChange={handleAddRoomChange} />
+            </label>
+            <label>Tipo:
+              <input name="type" type="text" required
+                value={newRoomData.type} onChange={handleAddRoomChange} />
+            </label>
+            <label>Precio:
+              <input name="price" type="number" step="0.01" min={0} required
+                value={newRoomData.price} onChange={handleAddRoomChange} />
+            </label>
+
+            <button type="submit" disabled={addingRoom} className="update-button">
+              {addingRoom ? "Agregando..." : "Agregar habitación"}
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

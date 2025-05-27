@@ -15,6 +15,15 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
 }
+.button.danger {
+  background-color: #dc3545;
+  color: white;
+  margin-top: 10px;
+}
+.button.danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
 .reservations-grid {
   display: flex;
