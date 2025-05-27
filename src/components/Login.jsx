@@ -45,7 +45,7 @@ export const Login = ({ switchAuthHandler }) => {
       </div>
       {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
 
-      <a href="#">¿Olvidaste tu contraseña?</a>
+      <a href="resetPassword">¿Olvidaste tu contraseña?</a>
       <button type="submit" className="button" disabled={isLoading}>
         INICIAR SESIÓN
       </button>

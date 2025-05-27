@@ -13,3 +13,6 @@ export {useAddEvents} from "./useAddEvents.jsx"
 export {useGetInvoices} from "./useGetInvoice.jsx"
 export {useUpdateHotel} from "./useUpdateHotel.jsx"
 export {useAddRoom} from "./useAddRoom.jsx"
+export {useForgotPassword} from "./useforgotPassword.jsx"
+export {useResetPassword} from "./useResetPassword.jsx"
+

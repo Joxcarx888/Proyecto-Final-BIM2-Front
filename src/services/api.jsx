@@ -48,6 +48,24 @@ export const getHotels = async () => {
   }
 };
 
+export const forgotPassword = async (email) => {
+  try {
+    return await apiClient.post("users/forgot-password", { email });
+  } catch (e) {
+    return { error: true, e };
+  }
+};
+
+export const resetPassword = async (token, newPassword) => {
+  try {
+    return await apiClient.post(`users/reset-password/${token}`, { password: newPassword });
+  } catch (e) {
+    return { error: true, e };
+  }
+};
+
+
+
 export const getHotelsByName = async (name) => {
   try {
     const response = await apiClient.get(`hotels/get-hotel-by-name/${name}`);

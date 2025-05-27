@@ -1,1 +1,2 @@
-export { loginSchema, registerSchema} from "./AuthValidator.jsx";
+export * from "./AuthValidator.jsx";
+export * from "./PasswordValidator.jsx";

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { getReservations } from "../../services/api";
 import { SidebarDemo } from "../../components/nanvbars/sidevbar";
-import { useCreateInvoiceUnified } from "../../shared/hooks";
-// import { useRemoveRoomsFromReservation } from "../../shared/hooks/useRemoveRoomsFromReservation";
+import { useCreateInvoiceUnified, useRemoveRoomsFromReservation } from "../../shared/hooks";
 import { toast } from "react-hot-toast";
 import "./styleReservation.css";
 
@@ -13,9 +12,10 @@ export const ReservationsPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [diasEstadia, setDiasEstadia] = useState("");
   const [mode, setMode] = useState(null);
+  const [selectedRooms, setSelectedRooms] = useState({});
 
   const { createInvoice, loading: creatingInvoice } = useCreateInvoiceUnified();
-  // const { removeRoomsFromReservation } = useRemoveRoomsFromReservation();
+  const { removeRooms, loading: removingRooms } = useRemoveRoomsFromReservation();
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -65,7 +65,7 @@ export const ReservationsPage = () => {
           data: { hotelId: mode.hotelId, diasEstadia }
         });
 
-        // await removeRoomsFromReservation(mode.roomList.map((r) => r._id));
+        await removeRooms(mode.roomList.map((r) => r._id));
         setReservations((prev) => prev.filter((r) => r._id !== mode.reservationId));
         toast.success("Factura generada correctamente");
       } else if (mode?.type === 'all') {
@@ -76,8 +76,7 @@ export const ReservationsPage = () => {
               type: 'reservation',
               data: { hotelId: res.hotel._id, diasEstadia }
             });
-
-            // await removeRoomsFromReservation(res.roomList.map((r) => r._id));
+            await removeRooms(res.roomList.map((r) => r._id));
             successCount++;
           } catch (err) {
             console.error(`Error en reserva ${res._id}:`, err);
@@ -98,6 +97,37 @@ export const ReservationsPage = () => {
       setDiasEstadia("");
       setMode(null);
     }
+  };
+
+  const toggleRoomSelection = (reservationId, roomId) => {
+    setSelectedRooms((prev) => {
+      const current = prev[reservationId] || [];
+      const updated = current.includes(roomId)
+        ? current.filter((id) => id !== roomId)
+        : [...current, roomId];
+      return { ...prev, [reservationId]: updated };
+    });
+  };
+
+  const handleRemoveRooms = async (reservationId) => {
+    const roomIds = selectedRooms[reservationId];
+    if (!roomIds || roomIds.length === 0) {
+      toast.error("Selecciona al menos una habitación para eliminar.");
+      return;
+    }
+
+    await removeRooms(roomIds);
+    setReservations((prev) =>
+      prev.map((res) =>
+        res._id === reservationId
+          ? {
+              ...res,
+              roomList: res.roomList.filter((room) => !roomIds.includes(room._id))
+            }
+          : res
+      )
+    );
+    setSelectedRooms((prev) => ({ ...prev, [reservationId]: [] }));
   };
 
   const activeReservationsExist = reservations.some((res) => res.state);
@@ -126,7 +156,14 @@ export const ReservationsPage = () => {
                 <ul>
                   {res.roomList.map((room) => (
                     <li key={room._id}>
-                      #{room.roomNumber} - {room.type} - ${room.price} - {room.available ? "Disponible" : "No disponible"}
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={selectedRooms[res._id]?.includes(room._id) || false}
+                          onChange={() => toggleRoomSelection(res._id, room._id)}
+                        />
+                        #{room.roomNumber} - {room.type} - ${room.price} - {room.available ? "Disponible" : "No disponible"}
+                      </label>
                     </li>
                   ))}
                 </ul>
@@ -134,14 +171,21 @@ export const ReservationsPage = () => {
                   <strong>Estado:</strong> {res.state ? "Activa" : "Cancelada"}
                 </p>
                 {res.state && (
-                  <button
-                    className="button"
-                    onClick={() =>
-                      handlePagarUna(res._id, res.hotel._id, res.roomList)
-                    }
-                  >
-                    Pagar
-                  </button>
+                  <>
+                    <button
+                      className="button"
+                      onClick={() => handlePagarUna(res._id, res.hotel._id, res.roomList)}
+                    >
+                      Pagar
+                    </button>
+                    <button
+                      className="button danger"
+                      disabled={removingRooms}
+                      onClick={() => handleRemoveRooms(res._id)}
+                    >
+                      {removingRooms ? "Eliminando..." : "Eliminar habitaciones seleccionadas"}
+                    </button>
+                  </>
                 )}
               </div>
             ))}
