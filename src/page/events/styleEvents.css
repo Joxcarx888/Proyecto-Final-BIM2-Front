@@ -53,3 +53,61 @@
   color: #81c784;
   font-weight: bold;
 }
+
+.pay-button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pay-button:hover {
+  background-color: #45a049;
+}
+
+.drawer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 300px;
+  background: #fff;
+  padding: 1rem;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.edit-button, .delete-button, .save-button, .cancel-button {
+  margin-top: 8px;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-button {
+  background: #ffc107;
+}
+
+.delete-button {
+  background: #dc3545;
+  color: white;
+}
+
+.save-button {
+  background: #28a745;
+  color: white;
+}
+
+.cancel-button {
+  background: #6c757d;
+  color: white;
+}
+
+

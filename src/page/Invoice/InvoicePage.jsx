@@ -47,6 +47,7 @@ export const InvoicesPage = () => {
             {invoices.map((inv) => (
               <div key={inv._id} className="reservation-card">
                 <h2>{inv.hotel?.name || "Hotel desconocido"}</h2>
+                <p><strong>Cliente:</strong> {inv.user?.name || "Usuario desconocido"}</p>
 
                 {inv.reservation ? (
                   <>
@@ -63,7 +64,6 @@ export const InvoicesPage = () => {
                 )}
 
                 <p><strong>Total pagado:</strong> ${inv.total ?? 0}</p>
-
                 <p>
                   <strong>Fecha de cancelación:</strong>{" "}
                   {inv.fechaCancelacion

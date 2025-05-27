@@ -144,15 +144,6 @@ export const createInvoice = async ({ hotelId, diasEstadia }) => {
   }
 };
 
-export const createInvoiceEvent = async ({ eventData }) => {
-  try {
-    const response = await apiClient.post('invoice/create/event', {eventData});
-    return response.data;
-  } catch (error) {
-    console.error("Error al crear factura:", error);
-    throw error;
-  }
-};
 
 export const createEvent = async (eventData) => {
   try {
@@ -243,6 +234,38 @@ export const getEvents = async () => {
     return [];
   }
 };
+
+export const updateEventById = async (id, data) => {
+  try {
+    const response = await apiClient.put(`events/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar evento:", error);
+    throw error;
+  }
+};
+
+export const deleteEventById = async (id) => {
+  try {
+    const response = await apiClient.delete(`events/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar evento:", error);
+    throw error;
+  }
+};
+
+export const createInvoiceEvent = async ({ eventId }) => {
+  try {
+    const response = await apiClient.post('invoice/create/event', { eventId });
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear factura de evento:", error);
+    throw error;
+  }
+};
+
+
 
 
 
