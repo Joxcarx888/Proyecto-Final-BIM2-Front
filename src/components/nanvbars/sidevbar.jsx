@@ -63,11 +63,6 @@ export function SidebarDemo() {
               {role === "HOTEL" && (
                 <>
                   <SidebarLink
-                    link={{ label: "Mis habitaciones", href: "#" }}
-                    onClick={() => {}}
-                    className="sidebar-link"
-                  />
-                  <SidebarLink
                     link={{ label: "Eventos", href: "/events" }}
                     onClick={() => handleNavigate("/events")}
                     className="sidebar-link"

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { jwtDecode } from "jwt-decode"; // ✅ Importación corregida
+import { jwtDecode } from "jwt-decode"; 
 import { updateUserById } from "../../services/api";
 
 export const useUpdateUser = () => {
@@ -20,7 +20,7 @@ export const useUpdateUser = () => {
       const token = user.token;
       if (!token) throw new Error("Token no encontrado.");
 
-      const decoded = jwtDecode(token); // ✅ Usamos jwtDecode
+      const decoded = jwtDecode(token); 
       const userId = decoded.uid;
       if (!userId) throw new Error("No se pudo obtener el ID del usuario desde el token.");
 
@@ -34,11 +34,24 @@ export const useUpdateUser = () => {
 
       setResponse("Usuario actualizado correctamente.");
       return res.user;
-    } catch (err) {
-      const msg = err.response?.data?.msg || err.message || "Error al actualizar el usuario.";
+    }catch (err) {
+      console.log("Error completo:", err);
+      console.log("Error response:", err.response);
+      console.log("Error data:", err.response?.data);
+
+      const backendMsg = err.response?.data?.msg;
+      let msg = err.message || "Error al actualizar el usuario.";
+
+      if (backendMsg === "Debe ingresar su contraseña actual para cambiarla") {
+        msg = "Para cambiar la contraseña, debes ingresar tu contraseña actual.";
+      } else if (backendMsg) {
+        msg = backendMsg;
+      }
+
       setError(msg);
       throw new Error(msg);
-    } finally {
+    }
+    finally {
       setLoading(false);
     }
   };

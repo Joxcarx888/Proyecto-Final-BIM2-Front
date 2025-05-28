@@ -305,6 +305,17 @@ export const createInvoiceEvent = async ({ eventId }) => {
   }
 };
 
+export const getMyHotelRooms = async () => {
+  try {
+    const response = await apiClient.get('rooms/my-hotel'); 
+    return response.data.rooms;
+  } catch (error) {
+    console.error("Error al obtener las habitaciones del hotel:", error);
+    throw error;
+  }
+};
+
+
 
 
 
