@@ -3,14 +3,14 @@ import { deleteReservationById } from "../../services";
 import { toast } from "react-hot-toast";
 
 export const useDeleteReservation = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-  const deleteReservation = async (reservationId) => {
+    const deleteReservation = async (reservationId) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await deleteReservationById(reservationId); 
+      const result = await deleteReservationById(reservationId);
       toast.success(result.message || "Reservación cancelada con éxito");
       return result;
     } catch (err) {
@@ -22,6 +22,7 @@ export const useDeleteReservation = () => {
       setLoading(false);
     }
   };
+
 
   return {
     deleteReservation,

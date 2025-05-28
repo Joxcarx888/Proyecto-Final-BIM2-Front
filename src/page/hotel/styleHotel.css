@@ -3,21 +3,22 @@
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
   padding: 1rem;
+  background-color: #F7F5F0;
 }
 
 .hotel-card {
-  background: white;
-  border: 1px solid #ddd;
+  background: #F7F5F0;
+  border: 1px solid #D9C2A6;
   border-radius: 0.5rem;
   text-decoration: none;
-  color: inherit;
+  color: #2E2E2E;
   overflow: hidden;
   transition: transform 0.2s ease;
 }
 
 .hotel-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(46, 46, 46, 0.1);
 }
 
 .hotel-card img {
@@ -28,19 +29,23 @@
 
 .hotel-card h3 {
   margin: 0.5rem;
+  color: #2E2E2E;
 }
 
 .hotel-detail-layout {
   display: flex;
   min-height: 100vh;
+  background-color: #F7F5F0;
 }
 
 .hotel-detail-content {
   flex: 1;
   padding: 2rem;
+  background-color: #F7F5F0;
 }
 
 .hotel-detail-title {
   font-size: 2rem;
   margin-bottom: 1.5rem;
+  color: #2E2E2E;
 }

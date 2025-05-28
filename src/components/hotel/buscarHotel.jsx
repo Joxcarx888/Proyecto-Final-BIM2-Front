@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   useAddReservation,
@@ -8,6 +9,7 @@ import {
   useUpdateHotel,
   useAddRoom,
 } from "../../shared/hooks";
+import { getMyHotelRooms } from "../../services/";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import toast from "react-hot-toast";
@@ -18,37 +20,10 @@ export const Hotel = ({ hotel }) => {
   const { rooms, isLoading } = useGetHotelsByName(hotel.name);
   const navigate = useNavigate();
 
-  const {
-    addReservation,
-    loading,
-    error,
-    response,
-    clearMessages,
-  } = useAddReservation();
-
-  const {
-    createEvent,
-    loading: creatingEvent,
-    error: eventError,
-    response: eventResponse,
-    clearMessages: clearEventMessages,
-  } = useAddEvents();
-
-  const {
-    updateHotel,
-    loading: updatingHotel,
-    error: updateError,
-    response: updateResponse,
-    clearMessages: clearUpdateMessages,
-  } = useUpdateHotel();
-
-  const {
-    addRoom,
-    loading: addingRoom,
-    error: roomError,
-    response: roomResponse,
-    clearMessages: clearRoomMessages,
-  } = useAddRoom();
+  const { addReservation, loading, error, response, clearMessages } = useAddReservation();
+  const { createEvent, loading: creatingEvent, error: eventError, response: eventResponse, clearMessages: clearEventMessages } = useAddEvents();
+  const { updateHotel, loading: updatingHotel, error: updateError, response: updateResponse, clearMessages: clearUpdateMessages } = useUpdateHotel();
+  const { addRoom, loading: addingRoom, error: roomError, response: roomResponse, clearMessages: clearRoomMessages } = useAddRoom();
 
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [eventName, setEventName] = useState('');
@@ -56,6 +31,7 @@ export const Hotel = ({ hotel }) => {
   const [eventTime, setEventTime] = useState('');
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [showAddRoomPanel, setShowAddRoomPanel] = useState(false);
+  const [initialRoomsLoaded, setInitialRoomsLoaded] = useState(false); 
   const [editForm, setEditForm] = useState({
     name: hotel.name,
     address: hotel.address,
@@ -70,6 +46,28 @@ export const Hotel = ({ hotel }) => {
     type: "",
     price: "",
   });
+
+  useEffect(() => {
+    const fetchInitialRooms = async () => {
+      try {
+        await getMyHotelRooms();
+
+        const reloaded = sessionStorage.getItem("hotelPageReloaded");
+        if (!reloaded) {
+          sessionStorage.setItem("hotelPageReloaded", "true");
+          window.location.reload();
+        }
+
+      } catch (err) {
+        console.error("Error en la llamada a getMyHotelRooms:", err);
+      } finally {
+        setInitialRoomsLoaded(true);
+      }
+    };
+
+    fetchInitialRooms();
+  }, []);
+
 
   const handleRoomSelect = (roomId) => {
     setSelectedRoom((prev) => (prev === roomId ? null : roomId));
@@ -177,6 +175,7 @@ export const Hotel = ({ hotel }) => {
     }
   }, [roomError]);
 
+  if (!initialRoomsLoaded) return <p>Preparando vista del hotel...</p>;
   if (isLoading) return <p>Cargando habitaciones...</p>;
 
   return (
@@ -349,5 +348,7 @@ export const Hotel = ({ hotel }) => {
     </div>
   );
 };
+
+
 
 export default Hotel;

@@ -13,7 +13,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f5f5f5;
 }
 
 .app {
@@ -21,7 +20,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: #f2f2f2;
+    background: #edeae4;
 }
 
 .container {
@@ -30,9 +29,10 @@ body {
     height: 550px;
     display: flex;
     overflow: hidden;
-    background-color: #fff;
-    box-shadow: 0 0 30px rgba(0,0,0,0.2);
+    background-color: #F7F5F0;
+    box-shadow: 0 0 30px rgba(46, 46, 46, 0.2);
     border-radius: 12px;
+    border: 1px solid #D9C2A6;
 }
 
 .container-form {
@@ -41,7 +41,7 @@ body {
     height: 100%;
     top: 0;
     padding: 40px;
-    background: #fff;
+    background: #F7F5F0;
     transition: all 0.6s ease-in-out;
     z-index: 1;
 }
@@ -81,7 +81,7 @@ body {
     background-image: url('../../assets/img/auth.jpg');
     background-size: cover;
     background-position: center;
-    color: white;
+    color: #F7F5F0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -96,16 +96,18 @@ body {
 .container-input {
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
+  border: 1px solid #D9C2A6;
   padding: 0.5rem;
   border-radius: 8px;
   margin-bottom: 10px;
+  background-color: #F7F5F0;
 }
 
 .input-icon {
   width: 20px;
   height: 20px;
   margin-right: 10px;
+  color: #73726E;
 }
 
 .container-input input {
@@ -113,6 +115,8 @@ body {
   outline: none;
   flex: 1;
   font-size: 1rem;
+  background-color: #F7F5F0;
+  color: #2E2E2E;
 }
 
 .container.toggle .container-welcome {
@@ -132,7 +136,7 @@ body {
 .container-form h2 {
     font-size: 30px;
     margin-bottom: 20px;
-    color: #333;
+    color: #2E2E2E;
 }
 
 .container-input {
@@ -144,7 +148,7 @@ body {
     align-items: center;
     gap: 8px;
     padding: 0 15px;
-    background-color: #EEEEEE;
+    background-color: #F7F5F0;
     border-radius: 5px;
 }
 
@@ -155,10 +159,11 @@ body {
     height: 100%;
     background-color: inherit;
     font-size: 14px;
+    color: #2E2E2E;
 }
 
 .container-form a {
-    color: #555;
+    color: #73726E;
     font-size: 14px;
     margin-bottom: 20px;
     margin-top: 5px;
@@ -167,14 +172,15 @@ body {
 
 .container-form a:hover {
     text-decoration: underline;
+    color: #008080;
 }
 
 .button {
     position: relative;
     border-radius: 20px;
-    border: 1px solid #4bb6b7;
-    background: #4bb6b7;
-    color: #fff;
+    border: 1px solid #008080;
+    background: #008080;
+    color: #F7F5F0;
     font-size: 15px;
     font-weight: 700;
     margin: 10px;
@@ -187,6 +193,7 @@ body {
 
 .button:hover {
     letter-spacing: 3px;
+    background-color: #006666;
 }
 
 .welcome,
@@ -218,16 +225,17 @@ body {
 
 .welcome .button {
     background-color: transparent;
-    border: 2px solid white;
+    border: 2px solid #F7F5F0;
+    color: #F7F5F0;
 }
 
 .welcome .button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(247, 245, 240, 0.1);
 }
 
 ion-icon {
     font-size: 20px;
-    color: #555;
+    color: #73726E;
 }
 
 .welcome-sign-up {
@@ -237,7 +245,7 @@ ion-icon {
     transition: transform 0.6s ease-in-out;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(46, 46, 46, 0.5);
 }
 
 .welcome-sign-in {
@@ -247,7 +255,7 @@ ion-icon {
     transition: transform 0.6s ease-in-out;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(46, 46, 46, 0.5);
 }
 
 .container.toggle .welcome-sign-up {
@@ -264,13 +272,12 @@ ion-icon {
     border: none;
     background-color: inherit;
     font-size: 14px;
-    color: #333;
+    color: #2E2E2E;
     appearance: none;
     padding-right: 20px;
-    background-image: url("data:image/svg+xml;utf8,<svg fill='%23666' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%2373726E' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 16px;
     cursor: pointer;
 }
-

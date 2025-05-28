@@ -8,21 +8,25 @@ export const ProfilePage = () => {
 
   const [user, setUser] = useState(null);
   const [form, setForm] = useState({
+    name: "",
     username: "",
     password: "",
     newPassword: ""
   });
 
   useEffect(() => {
-  const userStr = localStorage.getItem("user");
-  if (userStr) {
-    const parsed = JSON.parse(userStr);
-    console.log("Usuario cargado:", parsed); // <- revisa si tiene _id aquí
-    setUser(parsed);
-    setForm((prev) => ({ ...prev, name: parsed.username }));
-  }
-}, []);
-
+    const userStr = localStorage.getItem("user");
+    if (userStr) {
+      const parsed = JSON.parse(userStr);
+      console.log("Usuario cargado:", parsed);
+      setUser(parsed);
+      setForm((prev) => ({
+        ...prev,
+        name: parsed.name || "",
+        username: parsed.username
+      }));
+    }
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -31,9 +35,17 @@ export const ProfilePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Enviando form:", form);
+
+    const dataToSend = {
+      ...form,
+      newPassword: form.newPassword || form.password,
+    };
+
+    console.log("Enviando form:", dataToSend);
+
     try {
-      await updateUser(form);
+      await updateUser(dataToSend);
+      window.location.reload();
     } catch (err) {
       console.error("Error desde handleSubmit:", err);
     }
@@ -49,15 +61,24 @@ export const ProfilePage = () => {
 
         <div style={{ marginBottom: "1rem" }}>
           <p><strong>Nombre de usuario:</strong> {user.username}</p>
+          <p><strong>Nombre:</strong> {user.name}</p>
           <p><strong>Email:</strong> {user.email}</p>
           <p><strong>Rol:</strong> {user.role}</p>
         </div>
 
         <form onSubmit={handleSubmit}>
+          <label>Nombre</label>
+          <input
+            name="name"
+            placeholder="Nombre real"
+            value={form.name}
+            onChange={handleChange}
+          />
+
           <label>Nombre de usuario</label>
           <input
             name="username"
-            placeholder="Nombre"
+            placeholder="Nombre de usuario"
             value={form.username}
             onChange={handleChange}
             required
@@ -70,6 +91,7 @@ export const ProfilePage = () => {
             placeholder="Contraseña actual"
             value={form.password}
             onChange={handleChange}
+            required
           />
 
           <label>Nueva contraseña</label>

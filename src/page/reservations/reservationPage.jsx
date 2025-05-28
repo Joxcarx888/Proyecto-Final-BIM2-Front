@@ -140,9 +140,9 @@ export const ReservationsPage = () => {
     }
   };
 
-  const handleCancelReservation = async (reservationId, hotelId) => {
+  const handleCancelReservation = async (reservationId) => {
     try {
-      await deleteReservation(reservationId, hotelId);
+      await deleteReservation(reservationId);
       setReservations((prev) =>
         prev.filter((res) => res._id !== reservationId)
       );
@@ -152,6 +152,7 @@ export const ReservationsPage = () => {
       toast.error("No se pudo cancelar la reservación.");
     }
   };
+
 
   const activeReservationsExist = reservations.some((res) => res.state);
 
