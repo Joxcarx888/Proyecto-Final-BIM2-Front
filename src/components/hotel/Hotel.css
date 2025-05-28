@@ -3,6 +3,7 @@
   justify-content: space-between;
   padding: 1.5rem;
   gap: 2rem;
+  background-color: #F7F5F0;
 }
 
 .hotel-details {
@@ -14,11 +15,12 @@
 }
 
 .hotel-card {
-  background-color: white;
-  border: 1px solid #ddd;
+  background-color: #F7F5F0;
+  border: 1px solid #D9C2A6;
   padding: 1rem;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(46, 46, 46, 0.1);
+  color: #2E2E2E;
 }
 
 .hotel-image {
@@ -27,65 +29,68 @@
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 1rem;
+  border: 1px solid #D9C2A6;
 }
 
 .reserve-button {
-  background-color: #10b981; /* verde */
-  color: white;
+  background-color: #008080;
+  color: #F7F5F0;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-weight: 500;
 }
 
 .reserve-button:hover {
-  background-color: #059669;
+  background-color: #006666;
 }
 
-
 .edit-button {
-  background-color: #3b82f6; 
-  color: white;
+  background-color: #008080;
+  color: #F7F5F0;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-weight: 500;
 }
 
 .edit-button:hover {
-  background-color: #2563eb;
+  background-color: #006666;
 }
 
 .add-room-button {
-  background-color: #facc15; 
-  color: black;
+  background-color: #E85D0C;
+  color: #F7F5F0;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-weight: 500;
 }
 
 .add-room-button:hover {
-  background-color: #eab308;
+  background-color: #D4530A;
 }
 
 .room-card {
-  border: 1px solid #ccc;
+  border: 1px solid #D9C2A6;
   padding: 0.75rem;
   border-radius: 10px;
   margin-bottom: 1rem;
-  color: white;
+  color: #F7F5F0;
 }
 
 .room-card.available {
-  background-color: #22c55e; 
+  background-color: #008080;
 }
 
 .room-card.unavailable {
-  background-color: #ef4444; 
+  background-color: #E85D0C;
 }
 
 .side-panel {
@@ -95,30 +100,34 @@
   width: 400px;
   max-width: 100%;
   height: 100%;
-  background: white;
-  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+  background: #F7F5F0;
+  box-shadow: -2px 0 10px rgba(46, 46, 46, 0.2);
   padding: 2rem;
   z-index: 1000;
   overflow-y: auto;
+  border-left: 1px solid #D9C2A6;
 }
 
 .close-btn {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: #f44336;
-  color: white;
+  background: #E85D0C;
+  color: #F7F5F0;
   border: none;
   border-radius: 50%;
   width: 30px;
   height: 30px;
   font-weight: bold;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .update-button {
-  background-color: #2563eb; /* Azul */
-  color: white;
+  background-color: #008080;
+  color: #F7F5F0;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   font-weight: bold;
@@ -129,11 +138,47 @@
 }
 
 .update-button:hover {
-  background-color: #1d4ed8;
+  background-color: #006666;
 }
 
 .update-button:disabled {
-  background-color: #93c5fd;
+  background-color: #73726E;
   cursor: not-allowed;
 }
 
+.side-panel label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2E2E2E;
+  font-weight: 500;
+}
+
+.side-panel input,
+.side-panel select,
+.side-panel textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #D9C2A6;
+  border-radius: 4px;
+  background-color: #F7F5F0;
+  color: #2E2E2E;
+}
+
+.side-panel input:focus,
+.side-panel select:focus,
+.side-panel textarea:focus {
+  outline: none;
+  border-color: #008080;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .hotel-container {
+    flex-direction: column;
+  }
+  
+  .side-panel {
+    width: 100%;
+  }
+}
