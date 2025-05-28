@@ -10,6 +10,8 @@ import {
   useAddRoom,
 } from "../../shared/hooks";
 import { getMyHotelRooms } from "../../services/";
+import { deleteHotelById } from "../../services";
+import { getEventsByHotel } from "../../services"; 
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import toast from "react-hot-toast";
@@ -46,6 +48,39 @@ export const Hotel = ({ hotel }) => {
     type: "",
     price: "",
   });
+
+const [deleting, setDeleting] = useState(false);
+
+const handleDeleteHotel = async () => {
+  if (!window.confirm("¿Estás seguro de que deseas eliminar este hotel? Esta acción no se puede deshacer.")) return;
+  setDeleting(true);
+  try {
+    await deleteHotelById(hotel._id);
+    toast.success("Hotel eliminado correctamente");
+    navigate("/dashboard"); 
+  } catch (err) {
+    toast.error("Error al eliminar el hotel");
+  } finally {
+    setDeleting(false);
+  }
+};
+
+const [events, setEvents] = useState([]);
+
+useEffect(() => {
+  const fetchEvents = async () => {
+    try {
+      const fetchedEvents = await getEventsByHotel(hotel._id);
+      setEvents(fetchedEvents);
+    } catch (error) {
+      console.error("Error al obtener eventos:", error);
+    }
+  };
+
+  fetchEvents();
+}, [hotel._id]);
+
+
 
   useEffect(() => {
     const fetchInitialRooms = async () => {
@@ -194,6 +229,18 @@ export const Hotel = ({ hotel }) => {
           </>
         )}
 
+        {role === "ADMIN" && (
+          <>
+            <button className="edit-button mb-4" onClick={() => setShowEditPanel(true)}>
+              Editar
+            </button>
+            <button className="delete-button mb-4" onClick={handleDeleteHotel} disabled={deleting}>
+              {deleting ? "Eliminando..." : "Eliminar"}
+            </button>
+          </>
+        )}
+
+
         <div className="hotel-card">
           <img
             src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/16/1b/4b/hotel-exterior.jpg?w=900&h=500&s=1"
@@ -283,6 +330,30 @@ export const Hotel = ({ hotel }) => {
           </div>
         ))}
       </div>
+
+      <div className="hotel-events">
+        <h3 className="text-xl font-bold mb-4">Eventos</h3>
+        {events.length === 0 ? (
+          <p>No hay eventos registrados.</p>
+        ) : (
+          events.map((event) => {
+            const dateObj = new Date(event.date);
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const year = dateObj.getFullYear();
+            const formattedDate = `${day}/${month}/${year}`;
+
+            return (
+              <div key={event._id} className="event-card">
+                <p><strong>Nombre:</strong> {event.event}</p>
+                <p><strong>Fecha:</strong> {formattedDate}</p>
+                <p><strong>Hora:</strong> {event.time}</p>
+              </div>
+            );
+          })
+        )}
+      </div>
+
 
       {showEditPanel && (
         <div className="side-panel">

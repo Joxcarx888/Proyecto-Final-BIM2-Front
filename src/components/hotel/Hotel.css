@@ -125,26 +125,40 @@
   justify-content: center;
 }
 
-.update-button {
-  background-color: #008080;
-  color: #F7F5F0;
+.edit-button,
+.delete-button {
   padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: bold;
-  transition: background-color 0.3s;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-  margin-top: 1rem;
+  transition: background-color 0.3s;
+  font-weight: 500;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 200px;
+  margin-bottom: 0.75rem;
 }
 
-.update-button:hover {
+/* Botón Editar */
+.edit-button {
+  background-color: #008080;
+  color: #F7F5F0;
+}
+
+.edit-button:hover {
   background-color: #006666;
 }
 
-.update-button:disabled {
-  background-color: #73726E;
-  cursor: not-allowed;
+
+.delete-button {
+  background-color: #A62C2B;
+  color: #F7F5F0;
 }
+
+.delete-button:hover {
+  background-color: #8E2423;
+}
+
 
 .side-panel label {
   display: block;
@@ -152,6 +166,16 @@
   color: #2E2E2E;
   font-weight: 500;
 }
+
+
+.event-card {
+  color: #cf8e33; 
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 
 .side-panel input,
 .side-panel select,

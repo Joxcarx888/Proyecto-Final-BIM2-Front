@@ -109,4 +109,13 @@
   color: green;
 }
 
+.search-container {
+  max-width: 400px; /* ancho máximo deseado */
+  margin: 0 auto 20px auto; /* centrado horizontal, margen abajo */
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+
 

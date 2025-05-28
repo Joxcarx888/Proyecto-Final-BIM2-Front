@@ -315,6 +315,28 @@ export const getMyHotelRooms = async () => {
   }
 };
 
+export const deleteHotelById = async (hotelId) => {
+  try {
+    const response = await apiClient.delete(`hotels/delete-hotel/${hotelId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar el Hotel:", error);
+    throw error;
+  }
+  
+};
+
+export const getEventsByHotel = async (hotelId) => {
+  try {
+    const response = await apiClient.get(`events/byHotel/${hotelId}`);
+    return response.data.events;
+  } catch (error) {
+    console.error("Error al obtener eventos del hotel:", error);
+    throw error;
+  }
+};
+
+
 
 
 
