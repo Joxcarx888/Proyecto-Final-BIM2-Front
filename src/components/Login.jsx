@@ -46,6 +46,7 @@ export const Login = ({ switchAuthHandler }) => {
       {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
 
       <a href="resetPassword">¿Olvidaste tu contraseña?</a>
+      <a href="https://www.canva.com/design/DAGoT27eSfg/2VEh0hCMro-6RMWpdI6upA/edit?utm_content=DAGoT27eSfg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Manual de Usuario</a>
       <button type="submit" className="button" disabled={isLoading}>
         INICIAR SESIÓN
       </button>
